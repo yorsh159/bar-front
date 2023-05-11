@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 
 export default function Sidebar() {
 
-  const {categorias} = useBar()
+  const {categorias, mesas} = useBar()
   const {logout,user} = useAuth({middleware:'auth'})
 
   return (

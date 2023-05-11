@@ -9,9 +9,18 @@ const BarProvider = ({children}) =>{
     const[categorias, setCategorias] = useState([]);
     const[categoriaActual, setCategoriaActual] = useState({})
     const[modal, setModal] = useState(false);
+    const[modalEdit,setModalEdit] = useState(false);
+    const[mesas, setMesas] = useState([]);
+    const[mesa, setMesa] = useState([]);
     const[producto, setProducto] = useState({});
+    const[productos, setProductos] = useState([]);
     const[pedido, setPedido] = useState([]);
     const[total, setTotal] = useState(0)
+    const[usuarios, setUsuarios] = useState([]);
+    const[usuario, setUsuario] = useState([]);
+    const[colaboradores, setColaboradores] = useState([]);
+    const[colaborador, setColaborador] = useState([]);
+    
 
     useEffect(()=>{
         const nuevoTotal = pedido.reduce((total,producto)=>(producto.precio * producto.cantidad)+total,0)
@@ -28,8 +37,50 @@ const BarProvider = ({children}) =>{
         }
     }
 
+    const obtenerUsuarios = async() =>{
+        try {
+            const {data} = await clienteAxios('api/usuarios')
+            setUsuarios(data.data)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerColaboradores = async() =>{
+        try {
+            const {data} = await clienteAxios('api/colaborador')
+            setColaboradores(data.data)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerProductos = async()=>{
+        try {
+            const{data} = await clienteAxios('api/productos')
+            setProductos(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerMesas = async()=>{
+        try {
+            const{data} = await clienteAxios('api/mesas')
+            setMesas(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(()=>{
         obtenerCategorias();
+        obtenerUsuarios();
+        obtenerColaboradores();
+        obtenerProductos();
+        obtenerMesas();
     },[])
 
     const handleClickCategoria = id =>{
@@ -44,6 +95,23 @@ const BarProvider = ({children}) =>{
     const handleSetProducto = producto =>{
         setProducto(producto)
     }
+
+    const handleSetMesas = mesa =>{
+        setMesas(mesa)
+    }
+
+    const handleSetMesa = mesa=>{
+        setMesa(mesa)
+    }
+
+    const handleSetUsuario = usuario=>{
+        setUsuario(usuario)
+    }
+
+    const handleSetColaborador = colaborador=>{
+        setColaborador(colaborador)
+    }
+
 
     const handleAgregarPedido = ({categoria_id, ...producto})=>{
         
@@ -77,6 +145,7 @@ const BarProvider = ({children}) =>{
         try {
             const{ data } = await clienteAxios.post('/api/pedidos',
             {
+                nombre,
                 total,
                 productos: pedido.map(producto=>{
                     return{
@@ -98,10 +167,30 @@ const BarProvider = ({children}) =>{
             //Cerrar la sesión del usuario
 
         } catch (error) {
-            
+            console.log(error)
         }
     } 
+
+    const handleSubmitEditarUsuario = async id=>{
+        try {
+           const respuesta = await clienteAxios.put(`api/usuarios/${id}`,datos,
+           {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+            console.log(respuesta);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleClickEditModal = ()=>{
+        setModalEdit(!modalEdit);
+    }
     
+    
+
     return(
         <BarContext.Provider
             value={{
@@ -111,6 +200,7 @@ const BarProvider = ({children}) =>{
                 modal,
                 handleClickModal,
                 producto,
+                productos,
                 handleSetProducto,
                 pedido,
                 handleAgregarPedido,
@@ -118,6 +208,19 @@ const BarProvider = ({children}) =>{
                 handleEliminarProductoPedido,
                 total,
                 handleSubmitNuevaOrden,
+                usuarios,
+                colaboradores,
+                mesas,
+                handleSetMesas,
+                mesa,
+                handleSetMesa,
+                handleSubmitEditarUsuario,
+                modalEdit,
+                handleClickEditModal,
+                usuario,
+                handleSetUsuario,
+                colaborador,
+                handleSetColaborador,
             }}
 
         >{children}</BarContext.Provider>

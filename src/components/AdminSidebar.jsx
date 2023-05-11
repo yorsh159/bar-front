@@ -20,6 +20,7 @@ export default function AdminSidebar() {
             <Link to='/admin/productos' className="font-bold text-lg border p-3 hover:bg-blue-500">Productos</Link>
             <Link to='/admin/mesas' className="font-bold text-lg border p-3 hover:bg-blue-500">Mesas</Link>
             <Link to='/admin/ingresos' className="font-bold text-lg border p-3 hover:bg-blue-500">Ingresos</Link>
+            <Link to='/admin/administracion' className="font-bold text-lg border p-3 hover:bg-blue-500">Administración</Link>
         </nav>
 
         <div className='my-5 px-5'>

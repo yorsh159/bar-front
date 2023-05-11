@@ -46,6 +46,11 @@ export default function Pedidos() {
                <span className="font-light px-2">{pedido.user.name}</span>
              </p>
 
+             <p>
+               Mesa:
+               <span className="font-light px-2">{pedido.mesa}</span>
+             </p>
+
           </div>
         ))}
       </div>

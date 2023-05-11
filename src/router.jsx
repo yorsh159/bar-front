@@ -9,6 +9,9 @@ import Pedidos from "./views/Pedidos";
 import Productos from "./views/Productos";
 import Mesas from "./views/Mesas";
 import Ingresos from "./views/Ingresos";
+import Administracion from "./views/Adminstracion";
+import Usuarios from "./views/Usuarios";
+import Colaborador from "./views/Colaborador";
 
 
 const router = createBrowserRouter([
@@ -56,7 +59,21 @@ const router = createBrowserRouter([
             {
                 path:'/admin/ingresos',
                 element:<Ingresos/>
-            }
+            },
+            {
+                path:'/admin/administracion',
+                element:<Administracion/>,
+                
+            },
+            {
+                path:'/admin/administracion/usuarios',
+                element:<Usuarios/>,
+            },
+            {
+                path:'/admin/administracion/colaborador',
+                element:<Colaborador/>,
+            },
+            
         ]
 
     }

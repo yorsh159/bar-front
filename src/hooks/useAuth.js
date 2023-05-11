@@ -43,6 +43,31 @@ export const useAuth = ({middleware, url}) => {
         }
     }
 
+  
+    
+    const registroColaborador = async(datos,setErrores) =>{
+        try {
+            const {data} = await clienteAxios.post('api/colaborador',datos)
+            //localStorage.setItem('AUTH_TOKEN',data.token);
+            setErrores([]);
+            await mutate();
+        } catch (error) {
+            setErrores(Object.values(error.response.data.errors))
+            //console.log(error)    
+        }
+    }
+
+    const registroColaboradorEdit = async(datos,id) =>{
+        try {
+            const {data} = await clienteAxios.put(`api/colaborador/${id}`,datos)
+            //localStorage.setItem('AUTH_TOKEN',data.token);
+            await mutate();
+        } catch (error) {
+            //setErrores(Object.values(error.response.data.errors))
+            console.log(error)    
+        }
+    }
+
     const logout = async () =>{
         try {
             await clienteAxios.post('api/logout',null,{
@@ -81,5 +106,8 @@ export const useAuth = ({middleware, url}) => {
         logout,
         user,
         error,
+        registroColaborador,
+        registroColaboradorEdit
+        
     }
 }
