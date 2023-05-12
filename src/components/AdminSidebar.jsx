@@ -17,6 +17,7 @@ export default function AdminSidebar() {
 
         <nav className="flex flex-col">
             <Link to='/admin' className="font-bold text-lg border w-full p-3 hover:bg-blue-500">Pedidos</Link>
+            <Link to='/admin/boletas' className="font-bold text-lg border w-full p-3 hover:bg-blue-500">Boletas</Link>
             <Link to='/admin/productos' className="font-bold text-lg border p-3 hover:bg-blue-500">Productos</Link>
             <Link to='/admin/mesas' className="font-bold text-lg border p-3 hover:bg-blue-500">Mesas</Link>
             <Link to='/admin/ingresos' className="font-bold text-lg border p-3 hover:bg-blue-500">Ingresos</Link>

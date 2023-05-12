@@ -4,3 +4,8 @@ export const formatearDinero = cantidad =>{
         currency:'PEN'
     })
 }
+
+export const formatNumero = total =>{
+    return total.toFixed(2)
+}
+

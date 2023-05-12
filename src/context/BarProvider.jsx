@@ -10,6 +10,9 @@ const BarProvider = ({children}) =>{
     const[categoriaActual, setCategoriaActual] = useState({})
     const[modal, setModal] = useState(false);
     const[modalEdit,setModalEdit] = useState(false);
+    const[modalEntrada,setModalEntrada] = useState(false);
+    const[modalSalida,setModalSalida] = useState(false);
+    const[modalPedido,setModalPedido] = useState(false);
     const[mesas, setMesas] = useState([]);
     const[mesa, setMesa] = useState([]);
     const[producto, setProducto] = useState({});
@@ -20,12 +23,34 @@ const BarProvider = ({children}) =>{
     const[usuario, setUsuario] = useState([]);
     const[colaboradores, setColaboradores] = useState([]);
     const[colaborador, setColaborador] = useState([]);
+    const[nota, setNota] = useState([])
+    const[totalBoleta, setTotalBoleta] = useState(0)
+    const[subTotalBoleta, setSubTotalBoleta] =useState(0)
+    const[igvBoleta, setIgvBoleta] = useState(0)
+ 
+
     
 
     useEffect(()=>{
         const nuevoTotal = pedido.reduce((total,producto)=>(producto.precio * producto.cantidad)+total,0)
         setTotal(nuevoTotal)
     },[pedido])
+
+    useEffect(()=>{
+        const nuevoTotalBoleta = nota.reduce((total,pedido)=>(pedido.total*0.18+pedido.total)+total,0)
+        setTotalBoleta(nuevoTotalBoleta)
+    },[nota])
+
+    useEffect(()=>{
+        const nuevoSubTotal = nota.reduce((total,pedido)=>(pedido.total)+total,0)
+        setSubTotalBoleta(nuevoSubTotal)
+    })
+
+    useEffect(()=>{
+        const igv = nota.reduce((total,pedido)=>(pedido.total * 0.18)+total,0)
+        setIgvBoleta(igv)
+    })
+
 
     const obtenerCategorias = async() =>{
         try {
@@ -171,24 +196,46 @@ const BarProvider = ({children}) =>{
         }
     } 
 
-    const handleSubmitEditarUsuario = async id=>{
+    const handleClickEditarUsuario = async id=>{
         try {
-           const respuesta = await clienteAxios.put(`api/usuarios/${id}`,datos,
-           {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-            console.log(respuesta);
+            await clienteAxios.put(`api/usuarios/${id}`,datos)
+            console.log(id)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
     }
 
     const handleClickEditModal = ()=>{
         setModalEdit(!modalEdit);
     }
+
+    const handleClickModalEntrada = ()=>{
+        setModalEntrada(!modalEntrada);
+    }
+
+    const handleClickModalSalida = ()=>{
+        setModalSalida(!modalSalida);
+    }
+
+    const handleClickModalPedido = ()=>{
+        setModalPedido(!modalPedido)
+    }
     
+    const handleClickAgregarNota = ({...pedido})=>{
+        setNota([...nota, pedido])
+    }
+
+    const handleEliminarNotaBoleta = id =>{
+
+        console.log(id);
+
+        const notaActualizado = nota.filter( pedido => pedido.id !== id)
+        console.log(notaActualizado)
+        setNota(notaActualizado)
+        
+    }
+
+   
     
 
     return(
@@ -214,13 +261,26 @@ const BarProvider = ({children}) =>{
                 handleSetMesas,
                 mesa,
                 handleSetMesa,
-                handleSubmitEditarUsuario,
+                handleClickEditarUsuario,
                 modalEdit,
                 handleClickEditModal,
                 usuario,
                 handleSetUsuario,
                 colaborador,
                 handleSetColaborador,
+                modalEntrada,
+                handleClickModalEntrada,
+                modalSalida,
+                handleClickModalSalida,
+                handleClickAgregarNota,
+                nota,
+                handleClickModalPedido,
+                modalPedido,
+                handleEliminarNotaBoleta,
+                totalBoleta,
+                subTotalBoleta,
+                igvBoleta,
+                
             }}
 
         >{children}</BarContext.Provider>

@@ -12,6 +12,7 @@ import Ingresos from "./views/Ingresos";
 import Administracion from "./views/Adminstracion";
 import Usuarios from "./views/Usuarios";
 import Colaborador from "./views/Colaborador";
+import Boletas from "./views/Boletas";
 
 
 const router = createBrowserRouter([
@@ -73,8 +74,14 @@ const router = createBrowserRouter([
                 path:'/admin/administracion/colaborador',
                 element:<Colaborador/>,
             },
+            {
+                path:'/admin/boletas',
+                element:<Boletas/>,
+            },
             
-        ]
+        ],
+        
+
 
     }
 ])

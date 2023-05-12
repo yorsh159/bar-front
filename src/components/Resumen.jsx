@@ -16,9 +16,7 @@ export default function Resumen() {
   //console.log(comprobarPedido())
 
   const mesaRef = createRef();
-  const dniRef = createRef();
-
-  
+ 
   
   const handleSubmit = async e => {
     e.preventDefault()
@@ -30,7 +28,7 @@ export default function Resumen() {
       try {
           const{ data } = await clienteAxios.post('/api/pedidos',
           {
-              dni:dniRef.current.value,
+              
               mesa:mesaRef.current.value,
               total,
               productos: pedido.map(producto=>{
