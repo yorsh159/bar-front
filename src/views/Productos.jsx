@@ -35,26 +35,36 @@ export default function Productos() {
     const handleSubmit = async e =>{
         e.preventDefault()
         
-        const datos = {
-            codigo: codigoRef.current.value,
-            nombre: nombreRef.current.value,
-            precio: precioRef.current.value,
-            cantidad: cantidadRef.current.value,
-            categoria_id: categoriaRef.current.value,
-            tipo: tipoRef.current.value,
-            imagen: imagenRef.current.files[0],
-        }
+        // const datos = {
+        //     codigo: codigoRef.current.value,
+        //     nombre: nombreRef.current.value,
+        //     precio: precioRef.current.value,
+        //     cantidad: cantidadRef.current.value,
+        //     categoria_id: categoriaRef.current.value,
+        //     tipo: tipoRef.current.value,
+        //     imagen: imagenRef.current.files[0],
+        // }
+
+        const datos = new FormData();
+        datos.append('codigo',codigoRef.current.value);
+        datos.append('nombre',nombreRef.current.value);
+        datos.append('precio',precioRef.current.value);
+        datos.append('cantidad',cantidadRef.current.value);
+        datos.append('categoria_id',categoriaRef.current.value);
+        datos.append('tipo',tipoRef.current.value);
+        datos.append('imagen',imagenRef.current.files[0]);
+
 
         console.log(datos);
 
-        // try {
-        //   const respuesta = await clienteAxios.post('api/productos',datos)
-        //   console.log(respuesta);
-        // } catch (error) {
-        //   setErrores(Object.values(error.response.data.errors))
-        //   console.log(Object.values(error.response.data.errors))
-        //   console.log(error)
-        // }
+        try {
+          const respuesta = await clienteAxios.post('api/productos',datos)
+          console.log(respuesta);
+        } catch (error) {
+          setErrores(Object.values(error.response.data.errors))
+          console.log(Object.values(error.response.data.errors))
+          console.log(error)
+        }
             
        
     }
@@ -228,7 +238,7 @@ export default function Productos() {
                   placeholder="Cargar imagen..."
                   ref={imagenRef}
                 />
-              </div>
+              </div> 
 
               <button onClick={handleSubmit}
                       className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-md font-semibold">

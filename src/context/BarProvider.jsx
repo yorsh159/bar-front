@@ -13,6 +13,7 @@ const BarProvider = ({children}) =>{
     const[modalEntrada,setModalEntrada] = useState(false);
     const[modalSalida,setModalSalida] = useState(false);
     const[modalPedido,setModalPedido] = useState(false);
+    const[modalFormaPago,setModalFormaPago] = useState(false);
     const[mesas, setMesas] = useState([]);
     const[mesa, setMesa] = useState([]);
     const[producto, setProducto] = useState({});
@@ -27,6 +28,9 @@ const BarProvider = ({children}) =>{
     const[totalBoleta, setTotalBoleta] = useState(0)
     const[subTotalBoleta, setSubTotalBoleta] =useState(0)
     const[igvBoleta, setIgvBoleta] = useState(0)
+    const[formaPago, setFormaPago] = useState([])
+    const[formaPagos, setFormaPagos] = useState([])
+    const[boletas, setBoletas] = useState([])
  
 
     
@@ -100,12 +104,42 @@ const BarProvider = ({children}) =>{
         }
     }
 
+    const obtenerFormaPagos = async()=>{
+        const token = localStorage.getItem('AUTH_TOKEN')
+        try {
+            const {data} = await clienteAxios('api/pagos',{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setFormaPagos(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerBoletas = async()=>{
+        const token = localStorage.getItem('AUTH_TOKEN')
+        try {
+            const {data} = await clienteAxios('api/boletas',{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setBoletas(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(()=>{
         obtenerCategorias();
         obtenerUsuarios();
         obtenerColaboradores();
         obtenerProductos();
         obtenerMesas();
+        obtenerFormaPagos();
+        obtenerBoletas();
     },[])
 
     const handleClickCategoria = id =>{
@@ -135,6 +169,10 @@ const BarProvider = ({children}) =>{
 
     const handleSetColaborador = colaborador=>{
         setColaborador(colaborador)
+    }
+
+    const handleSetFormaPago = formaPago=>{
+        setFormaPago(formaPago)
     }
 
 
@@ -235,6 +273,10 @@ const BarProvider = ({children}) =>{
         
     }
 
+    const handleClickModalFormaPago = ()=>{
+        setModalFormaPago(!modalFormaPago)
+    }
+
    
     
 
@@ -280,6 +322,12 @@ const BarProvider = ({children}) =>{
                 totalBoleta,
                 subTotalBoleta,
                 igvBoleta,
+                modalFormaPago,
+                handleClickModalFormaPago,
+                formaPago,
+                handleSetFormaPago,
+                formaPagos,
+                boletas
                 
             }}
 

@@ -1,54 +1,63 @@
-
 import ResumenBoleta from '../components/ResumenBoleta'
 import clienteAxios from '../config/axios';
 import useSWR from "swr";
 import useBar from '../hooks/useBar';
+import { formatNumero } from '../helpers';
 import { createRef , useState } from 'react';
 
-import { formatNumero } from '../helpers';
-import { Link } from 'react-router-dom';
+export default function Comisiones() {
 
-
-
-export default function Boletas() {
-
+    
     const token = localStorage.getItem('AUTH_TOKEN')
     const fetcher = () => clienteAxios('api/pedidos', {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     })
+  
 
-    
+    const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:5000}*/) 
+    const {nota,totalBoleta,subTotalBoleta,igvBoleta,handleClickAgregarNota,colaboradores} = useBar();
 
-    const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:5000}*/)
+    const comisionRef = createRef();
+    const colaboradorRef = createRef();
 
-    const {nota,handleClickAgregarNota,totalBoleta,subTotalBoleta,igvBoleta,formaPagos,pedido} = useBar();
 
-    console.log(data)
-    console.log(error)
-    console.log(isLoading)
-
-    const dniRef = createRef();
-    const pagoRef = createRef();
-
-    const handleSubmitBoleta = async e=>{
+    const handleSubmitComision = async e=>{
         e.preventDefault()
 
         const token = localStorage.getItem('AUTH_TOKEN')
         try {
-            await clienteAxios.post('api/boletas',{
-                dni: dniRef.current.value,
-                pago: pagoRef.current.value,
+
+            const datos = {
+                comision: comisionRef.current.value,
+                colaborador: colaboradorRef.current.value,
                 totalBoleta,
-                nota: nota.map(pedido=>{
+                notas: nota.map(pedido=>{
                     return{
                         id:pedido.id,
-                        mesa:pedido.mesa,
+                        mesa:pedido.mesa
+                        
                     }
                 }),
-                productos:pedido,
-            },
+
+                pedidos: nota.map(pedido=>{
+                    return{  
+                    pedido:pedido.productos.map(producto=>{
+                        return{
+                            nota:pedido.id,
+                            id:producto.id,
+                            cantidad:producto.pivot.cantidad,
+                        }
+                    })}
+                }),
+            
+                
+            }
+
+            console.log(datos);
+
+            await clienteAxios.post('api/comisiones',datos,
             {
                 headers:{
                     Authorization: `Bearer ${token}`
@@ -62,12 +71,10 @@ export default function Boletas() {
         
     }
 
-    return (
-     
+  return (
 
-        <div className='md:flex'>
-
-            <div className='w-1/3'>
+    <div className='md:flex'>
+        <div className='w-1/3'>
                 <h1 className='text-4xl font-black'>Pedidos</h1>
                 <div className='h-screen overflow-y-scroll py-4'>
                     {data?.data?.data?.map(pedido => (
@@ -120,10 +127,9 @@ export default function Boletas() {
                 
             </div>
 
-            
             <div id="boleta" className="w-2/3 ml-3">
 
-                <h1 className="text-4xl font-black">Boletas</h1>
+                <h1 className="text-4xl font-black">Comisión</h1>
 
                 <div className='flex flex-col'> 
 
@@ -152,53 +158,41 @@ export default function Boletas() {
                     <div className='text-lg font-bold py-3'>Total: S./{''}
                          {formatNumero(totalBoleta)}
                     </div>
-
+                    
                     <div>
-                        <div htmlFor="dni">DNI/RUC: </div>
-                        <input type="text" name="dni" id="dni" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="DNI/RUC" ref={dniRef} />
+                        <label htmlFor="comision">Comision a Pagar: S./ </label>
+                        <input type="text" name="comision" id="comision" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="" ref={comisionRef} />
                     </div>
-                
                     <div>
-
-                        <label htmlFor="pago">Método de pago: </label>
-                        <select name="pago" id="pago" className="ml-3 mt-2 p-3 bg-gray-50" ref={pagoRef}>
-                            {formaPagos.map(formaPago=>{
+                        <label htmlFor="colaborador">Colaborador: </label>
+                        <select name="colaborador" id="colaborador" className="ml-3 mt-2 p-3 bg-gray-50" ref={colaboradorRef}>
+                            {colaboradores.map(colaborador=>{
                                 return(
-                                    <option value={formaPago.id}>{formaPago.nombre}</option>
+                                    <option value={colaborador.id}>{colaborador.nombre}</option>
                                 )
                             })}
 
                         </select>
                     </div>  
+
+                     
                     
                     <form className='w-full'
-                          onSubmit={()=>{handleSubmitBoleta()
-                                        }}
+                          onSubmit={handleSubmitComision}
                     >
                         <div className='mt-5'>
                             <input type="submit"
                                    value="Guardar"
+
                                    className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
                              />
                         </div>
-                    </form>
-
-                    {/* <div className='mt-5'>
-                    <Link to='/descarga' target="_blank" className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'>
-                        Descargar Boleta
-                    </Link>
-                    </div>        */}
+                    </form>      
 
                 </div>
 
             </div>
-                 
-        </div>
 
-
-        
-        
- 
-
-    )
+    </div>
+  )
 }

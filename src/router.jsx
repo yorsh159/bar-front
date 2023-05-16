@@ -13,6 +13,12 @@ import Administracion from "./views/Adminstracion";
 import Usuarios from "./views/Usuarios";
 import Colaborador from "./views/Colaborador";
 import Boletas from "./views/Boletas";
+import Maestros from "./views/Maestros";
+import FormaPago from "./views/FormaPago";
+import VerBoletas from "./views/VerBoletas";
+import BoletaPDF from "./views/BoletaPDF";
+import Comisiones from "./views/Comisiones";
+
 
 
 const router = createBrowserRouter([
@@ -78,11 +84,32 @@ const router = createBrowserRouter([
                 path:'/admin/boletas',
                 element:<Boletas/>,
             },
+            {
+                path:'/admin/verboletas',
+                element:<VerBoletas/>
+            },
+            {
+                path:'/admin/maestros',
+                element:<Maestros/>
+            },
+            {
+                path:'/admin/maestros/formapago',
+                element:<FormaPago/>
+            },
+            {
+                path:'/admin/comisiones',
+                element:<Comisiones/>
+            }
+
             
         ],
         
 
 
+    },
+    {
+        path:'/descarga',
+        element:<BoletaPDF/>
     }
 ])
 
