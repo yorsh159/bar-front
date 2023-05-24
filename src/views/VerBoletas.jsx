@@ -1,6 +1,7 @@
 import  useSWR from "swr";
 import clienteAxios from '../config/axios';
 import useBar from "../hooks/useBar";
+import { Link } from "react-router-dom";
 
 export default function VerBoletas() {
 
@@ -21,12 +22,14 @@ export default function VerBoletas() {
 
   return (
     <div>
-        <h1 className='text-4xl font-black'>Pedidos</h1>
+        <h1 className='text-4xl font-black'>Tickets</h1>
             <p className='text-2xl my-6'>
-             Lista de Boletas
+             Lista de Tickets
             </p>
 
-        <div>
+            <Link to='http://127.0.0.1:8000/ticket' target="_blank" className="bg-amber-400 hover:bg-amber-500 text-white p-3 font-bold rounded-md">Ver Detalles</Link> 
+
+        <div className="mt-5">
             {data.data.data.map(boleta=>(
                 <div  className="p-5 border-b-8 shadow bg-white">
                     <p className="text-xl font-bold text-slate-600">

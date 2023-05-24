@@ -47,7 +47,8 @@ export default function Colaborador() {
         if(errores.length == 0){
           registroColaborador(datos,setErrores)
           handleClickModal()
-          toast.success('Usuario Registrado')          
+          toast.success('Usuario Registrado')    
+          
         }
         else{
           registroColaborador(datos,setErrores);

@@ -31,9 +31,10 @@ const BarProvider = ({children}) =>{
     const[formaPago, setFormaPago] = useState([])
     const[formaPagos, setFormaPagos] = useState([])
     const[boletas, setBoletas] = useState([])
+    const[notaComision,setNotaComision] = useState([])
  
 
-    
+
 
     useEffect(()=>{
         const nuevoTotal = pedido.reduce((total,producto)=>(producto.precio * producto.cantidad)+total,0)
@@ -277,6 +278,20 @@ const BarProvider = ({children}) =>{
         setModalFormaPago(!modalFormaPago)
     }
 
+    const handleClickAgregarNotaComision = ({...pedido})=>{
+        setNotaComision([...notaComision, pedido])
+    }
+
+    const handleEliminarNotaComision = id =>{
+
+        console.log(id);
+
+        const notaComisionActualizado = notaComision.filter( pedido => pedido.id !== id)
+        console.log(notaComisionActualizado)
+        setNotaComision(notaComisionActualizado)
+        
+    }
+
    
     
 
@@ -327,7 +342,10 @@ const BarProvider = ({children}) =>{
                 formaPago,
                 handleSetFormaPago,
                 formaPagos,
-                boletas
+                boletas,
+                handleClickAgregarNotaComision,
+                notaComision,
+                handleEliminarNotaComision
                 
             }}
 

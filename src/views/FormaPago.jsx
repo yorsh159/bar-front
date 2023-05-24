@@ -40,6 +40,7 @@ export default function FormaPago() {
             })
             handleClickModalFormaPago();
             console.log(datos)
+            window.location.reload()
         } catch (error) {
             console.log(error)
         }

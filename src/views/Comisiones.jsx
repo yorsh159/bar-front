@@ -1,9 +1,10 @@
-import ResumenBoleta from '../components/ResumenBoleta'
+
 import clienteAxios from '../config/axios';
 import useSWR from "swr";
 import useBar from '../hooks/useBar';
 import { formatNumero } from '../helpers';
 import { createRef , useState } from 'react';
+import ResumenComision from '../components/ResumenComision';
 
 export default function Comisiones() {
 
@@ -17,7 +18,7 @@ export default function Comisiones() {
   
 
     const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:5000}*/) 
-    const {nota,totalBoleta,subTotalBoleta,igvBoleta,handleClickAgregarNota,colaboradores} = useBar();
+    const {notaComision,totalBoleta,subTotalBoleta,igvBoleta,handleClickAgregarNotaComision,colaboradores} = useBar();
 
     const comisionRef = createRef();
     const colaboradorRef = createRef();
@@ -115,7 +116,7 @@ export default function Comisiones() {
                             </p>
 
                             <button className="bg-red-600 hover:bg-red-700 rounded font-bold text-white text-center px-5 py-2 mt-3"
-                                    onClick={()=>handleClickAgregarNota(pedido)}
+                                    onClick={()=>handleClickAgregarNotaComision(pedido)}
                             >
 
                                 Agregar
@@ -127,7 +128,7 @@ export default function Comisiones() {
                 
             </div>
 
-            <div id="boleta" className="w-2/3 ml-3">
+            <div className="w-2/3 ml-3">
 
                 <h1 className="text-4xl font-black">Comisión</h1>
 
@@ -135,11 +136,11 @@ export default function Comisiones() {
 
                     <div className='bg-white h-96 overflow-y-scroll py-4'>
                         
-                        {nota.length === 0 ? (
+                        {notaComision.length === 0 ? (
                             <p>Agregue Notas de pedido</p>
                         ) : (
-                            nota.map(pedido=>(
-                                <ResumenBoleta
+                            notaComision.map(pedido=>(
+                                <ResumenComision
                                     key={pedido.id}
                                     pedido={pedido}
                                 />

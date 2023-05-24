@@ -36,26 +36,30 @@ export default function Boletas() {
         e.preventDefault()
 
         const token = localStorage.getItem('AUTH_TOKEN')
-        try {
-            await clienteAxios.post('api/boletas',{
-                dni: dniRef.current.value,
+
+        const datos= {
+            dni: dniRef.current.value,
                 pago: pagoRef.current.value,
                 totalBoleta,
+                igvBoleta,
+                subTotalBoleta,
                 nota: nota.map(pedido=>{
                     return{
                         id:pedido.id,
                         mesa:pedido.mesa,
                     }
                 }),
-                productos:pedido,
-            },
+        }
+
+        try {
+            await clienteAxios.post('api/boletas',datos,
             {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
             })
             //window.location.reload();
-            
+            console.log(datos)
         } catch (error) {
             console.log(error)
         }
@@ -121,9 +125,9 @@ export default function Boletas() {
             </div>
 
             
-            <div id="boleta" className="w-2/3 ml-3">
+            <div className="w-2/3 ml-3">
 
-                <h1 className="text-4xl font-black">Boletas</h1>
+                <h1 className="text-4xl font-black">Tickets</h1>
 
                 <div className='flex flex-col'> 
 
@@ -172,16 +176,21 @@ export default function Boletas() {
                     </div>  
                     
                     <form className='w-full'
-                          onSubmit={()=>{handleSubmitBoleta()
-                                        }}
+                          onSubmit={handleSubmitBoleta}
                     >
-                        <div className='mt-5'>
-                            <input type="submit"
-                                   value="Guardar"
-                                   className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
-                             />
-                        </div>
+                        
                     </form>
+
+                    <div className='mt-5'>
+                            <button type="submit"
+                                    value="Guardar"
+                                    onClick={handleSubmitBoleta}
+                                    className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
+                            >
+                                Guardar
+                            </button>
+                    </div>
+                    
 
                     {/* <div className='mt-5'>
                     <Link to='/descarga' target="_blank" className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'>

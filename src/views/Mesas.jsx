@@ -39,6 +39,7 @@ export default function Mesas() {
     try {
       const respuesta = await clienteAxios.post('api/mesas',datos)
       console.log(respuesta);
+      window.location.reload();  
     } catch (error) {
       setErrores(Object.values(error.response.data.errors))
       //console.log(Object.values(error.response.data.errors))
