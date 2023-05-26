@@ -52,9 +52,9 @@ export default function Ingresos() {
 
   return (
     <div>
-        <h1 className='text-4xl font-black'>Ingresos</h1>
+        <h1 className='text-4xl font-black text-gray-200'>Ingresos</h1>
         
-        <p className='text-2xl my-6'>
+        <p className='text-2xl my-6 text-gray-200'>
            Registrar entrada y salida
         </p>
 

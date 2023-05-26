@@ -76,7 +76,7 @@ export default function Comisiones() {
 
     <div className='md:flex'>
         <div className='w-1/3'>
-                <h1 className='text-4xl font-black'>Pedidos</h1>
+                <h1 className='text-4xl font-black text-gray-200'>Pedidos</h1>
                 <div className='h-screen overflow-y-scroll py-4'>
                     {data?.data?.data?.map(pedido => (
                         <div key={pedido.id} className="p-5 border-b shadow  bg-white mb-3">
@@ -130,7 +130,7 @@ export default function Comisiones() {
 
             <div className="w-2/3 ml-3">
 
-                <h1 className="text-4xl font-black">Comisión</h1>
+                <h1 className="text-4xl font-black text-gray-200">Comisión</h1>
 
                 <div className='flex flex-col'> 
 
@@ -148,24 +148,24 @@ export default function Comisiones() {
                         ) }
                     </div>
 
-                    <div className='txt-lg font-semibold mt-3'>Subtotal: S./
+                    <div className='txt-lg font-semibold mt-3 text-gray-200'>Subtotal: S./
                          {formatNumero(subTotalBoleta)}
                     </div>
 
-                    <div className='txt-lg font-semibold'> IGV: S./
+                    <div className='txt-lg font-semibold text-gray-200'> IGV: S./
                          {formatNumero(igvBoleta)}       
                     </div>
 
-                    <div className='text-lg font-bold py-3'>Total: S./{''}
+                    <div className='text-lg font-bold py-3 text-gray-200'>Total: S./{''}
                          {formatNumero(totalBoleta)}
                     </div>
                     
                     <div>
-                        <label htmlFor="comision">Comision a Pagar: S./ </label>
+                        <label htmlFor="comision" className='text-gray-200'>Comision a Pagar: S./ </label>
                         <input type="text" name="comision" id="comision" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="" ref={comisionRef} />
                     </div>
                     <div>
-                        <label htmlFor="colaborador">Colaborador: </label>
+                        <label htmlFor="colaborador" className='text-gray-200'>Colaborador: </label>
                         <select name="colaborador" id="colaborador" className="ml-3 mt-2 p-3 bg-gray-50" ref={colaboradorRef}>
                             {colaboradores.map(colaborador=>{
                                 return(

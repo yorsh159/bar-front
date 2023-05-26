@@ -72,7 +72,7 @@ export default function Boletas() {
         <div className='md:flex'>
 
             <div className='w-1/3'>
-                <h1 className='text-4xl font-black'>Pedidos</h1>
+                <h1 className='text-4xl font-black text-gray-200'>Pedidos</h1>
                 <div className='h-screen overflow-y-scroll py-4'>
                     {data?.data?.data?.map(pedido => (
                         <div key={pedido.id} className="p-5 border-b shadow  bg-white mb-3">
@@ -127,7 +127,7 @@ export default function Boletas() {
             
             <div className="w-2/3 ml-3">
 
-                <h1 className="text-4xl font-black">Tickets</h1>
+                <h1 className="text-4xl font-black text-gray-200">Tickets</h1>
 
                 <div className='flex flex-col'> 
 
@@ -145,27 +145,27 @@ export default function Boletas() {
                         ) }
                     </div>
 
-                    <div className='txt-lg font-semibold mt-3'>Subtotal: S./
+                    <div className='txt-lg font-semibold mt-3 text-gray-200'>Subtotal: S./
                          {formatNumero(subTotalBoleta)}
                     </div>
 
-                    <div className='txt-lg font-semibold'> IGV: S./
+                    <div className='txt-lg font-semibold text-gray-200'> IGV: S./
                          {formatNumero(igvBoleta)}       
                     </div>
 
-                    <div className='text-lg font-bold py-3'>Total: S./{''}
+                    <div className='text-lg font-bold py-3 text-gray-200'>Total: S./{''}
                          {formatNumero(totalBoleta)}
                     </div>
 
                     <div>
-                        <div htmlFor="dni">DNI/RUC: </div>
+                        <label htmlFor="dni" className='text-lg font-bold py-3 text-gray-200'>DNI/RUC: </label>
                         <input type="text" name="dni" id="dni" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="DNI/RUC" ref={dniRef} />
                     </div>
                 
                     <div>
 
-                        <label htmlFor="pago">Método de pago: </label>
-                        <select name="pago" id="pago" className="ml-3 mt-2 p-3 bg-gray-50" ref={pagoRef}>
+                        <label htmlFor="pago" className='text-lg font-bold py-3 text-gray-200'>Método de pago: </label>
+                        <select name="pago" id="pago" className="ml-3 mt-2 p-3 rounded bg-gray-50" ref={pagoRef}>
                             {formaPagos.map(formaPago=>{
                                 return(
                                     <option value={formaPago.id}>{formaPago.nombre}</option>

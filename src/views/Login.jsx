@@ -26,7 +26,7 @@ export default function Login() {
 
   return (
     <>
-        <h1 className="text-4xl font-black">Iniciar Sesion</h1>
+        <h1 className="text-4xl font-black text-gray-200">Iniciar Sesion</h1>
 
         <div className="bg-white shadow-md rounded-md mt-5 px-5 py-10">
             

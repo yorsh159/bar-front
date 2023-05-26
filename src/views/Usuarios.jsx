@@ -99,8 +99,8 @@ export default function Usuarios() {
   return (
     <>
     <div>
-      <h1 className='text-4xl font-black'>Usuarios</h1>
-      <p className='text-2xl my-6'>Lista de usuarios</p>
+      <h1 className='text-4xl font-black text-gray-200'>Usuarios</h1>
+      <p className='text-2xl my-6 text-gray-200'>Lista de usuarios</p>
 
       <button
         type="button"

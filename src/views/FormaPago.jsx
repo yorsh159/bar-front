@@ -66,8 +66,8 @@ export default function FormaPago() {
   return (
 
     <div>
-        <h1 className='text-4xl font-black'>Forma de Pago</h1>
-        <p className='text-2xl my-6'>Lista de usuarios</p>
+        <h1 className='text-4xl font-black text-gray-200'>Forma de Pago</h1>
+        <p className='text-2xl my-6 text-gray-200'>Lista de usuarios</p>
 
         <button
             type="button"

@@ -22,8 +22,8 @@ export default function VerBoletas() {
 
   return (
     <div>
-        <h1 className='text-4xl font-black'>Tickets</h1>
-            <p className='text-2xl my-6'>
+        <h1 className='text-4xl font-black text-gray-200'>Tickets</h1>
+            <p className='text-2xl my-6 text-gray-200'>
              Lista de Tickets
             </p>
 

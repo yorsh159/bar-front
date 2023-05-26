@@ -19,8 +19,8 @@ export default function Pedidos() {
  
   return (
     <div>
-      <h1 className='text-4xl font-black'>Pedidos</h1>
-      <p className='text-2xl my-6'>
+      <h1 className='text-4xl font-black text-gray-200'>Pedidos</h1>
+      <p className='text-2xl my-6 text-gray-200'>
         Nota de venta
       </p>
 

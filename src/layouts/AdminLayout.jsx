@@ -9,7 +9,10 @@ export default function AdminLayout() {
     <>
       <div className='md:flex'>
         <AdminSidebar />
-        <main className='bg-gray-300 flex-1 h-screen overflow-y-scroll p-3'>
+        <main className='flex-1 h-screen overflow-y-scroll p-3'
+              style={{
+                backgroundImage: 'url(/img/f.jpg)'
+              }}>
           <Outlet />
         </main>
       </div>

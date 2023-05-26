@@ -29,7 +29,7 @@ export default function BoletaPDF() {
     <div className='md:flex'>
 
 <div className='w-1/3'>
-                <h1 className='text-4xl font-black'>Pedidos</h1>
+                <h1 className='text-4xl font-black text-gray-200'>Pedidos</h1>
                 <div className='h-screen overflow-y-scroll py-4'>
                     {data?.data?.data?.map(pedido => (
                         <div key={pedido.id} className="p-5 border-b shadow  bg-white mb-3">

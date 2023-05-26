@@ -80,7 +80,7 @@ export default function Mesas() {
   return (
     <>
       <div>
-        <h1 className='text-4xl font-black'>Mesas</h1>
+        <h1 className='text-4xl font-black text-gray-200'>Mesas</h1>
         
 
         <button

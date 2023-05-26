@@ -33,7 +33,7 @@ export default function Registro() {
 
   return (
     <>
-        <h1 className="text-4xl font-black">Registrar</h1>
+        <h1 className="text-4xl font-black text-gray-200">Registrar</h1>
         <p>Crea tu cuenta</p>
 
         <div className="bg-white shadow-md rounded-md mt-5 px-5 py-10">

@@ -13,7 +13,7 @@ export default function Sidebar() {
       <div className="p-4">
         <img 
             className="w-40"
-            src="img/logo1.jpg" 
+            src="img/logo.jpg" 
             alt="imagen logo" 
         />
       </div>

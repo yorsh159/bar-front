@@ -90,8 +90,8 @@ export default function Colaborador() {
 
   return (
     <div>
-        <h1 className='text-4xl font-black'>Colaboradores</h1>  
-        <p className='text-2xl my-6'>Bienvenido a la administracion de colaboradores</p>
+        <h1 className='text-4xl font-black text-gray-200'>Colaboradores</h1>  
+        <p className='text-2xl my-6 text-gray-200'>Bienvenido a la administracion de colaboradores</p>
 
         <button
         type="button"
