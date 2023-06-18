@@ -9,4 +9,5 @@ const clienteAxios = axios.create({
     withCredentials: true,
 })
 
+
 export default clienteAxios;

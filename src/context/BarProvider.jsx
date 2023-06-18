@@ -32,8 +32,11 @@ const BarProvider = ({children}) =>{
     const[formaPagos, setFormaPagos] = useState([])
     const[boletas, setBoletas] = useState([])
     const[notaComision,setNotaComision] = useState([])
- 
-
+    const[marcacion,setMarcacion] = useState([])
+    const[horario,setHorario]=useState([])
+    const[incentivo,setIncentivo]=useState([])
+    const[pedidosAll,setPedidosAll]=useState([])
+    const[comisionBoleta,setComisionBoleta]=useState(0)
 
 
     useEffect(()=>{
@@ -56,6 +59,21 @@ const BarProvider = ({children}) =>{
         setIgvBoleta(igv)
     })
 
+    useEffect(()=>{
+        const showComision = notaComision.reduce((comision,ticket)=>(ticket.comision)+comision,0)
+        setComisionBoleta(showComision)
+        //console.log(showComision)
+    },[notaComision])
+
+
+    const obtenerPedidosAll = async()=>{
+        try {
+            const {data} = await clienteAxios('api/pedidosAll')
+            setPedidosAll(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const obtenerCategorias = async() =>{
         try {
@@ -132,8 +150,37 @@ const BarProvider = ({children}) =>{
             console.log(error)
         }
     }
+    
+    const obtenerMarcacion = async()=>{
+        try {
+            const {data} = await clienteAxios('api/marcacion')
+            setMarcacion(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerHorario = async()=>{
+        try {
+            const {data} = await clienteAxios('api/horario')
+            setHorario(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerIncentivo = async()=>{
+        try {
+            const {data} = await clienteAxios('api/incentivo')
+            setIncentivo(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+  
 
     useEffect(()=>{
+        obtenerPedidosAll();
         obtenerCategorias();
         obtenerUsuarios();
         obtenerColaboradores();
@@ -141,6 +188,10 @@ const BarProvider = ({children}) =>{
         obtenerMesas();
         obtenerFormaPagos();
         obtenerBoletas();
+        obtenerMarcacion();
+        obtenerHorario();
+        obtenerIncentivo();
+ 
     },[])
 
     const handleClickCategoria = id =>{
@@ -174,6 +225,10 @@ const BarProvider = ({children}) =>{
 
     const handleSetFormaPago = formaPago=>{
         setFormaPago(formaPago)
+    }
+
+    const handleSetPedidosAll = pedidosAll=>{
+        setPedidosAll(pedidosAll)
     }
 
 
@@ -261,7 +316,8 @@ const BarProvider = ({children}) =>{
     }
     
     const handleClickAgregarNota = ({...pedido})=>{
-        setNota([...nota, pedido])
+        setNota([...nota,pedido])
+        console.log(nota)
     }
 
     const handleEliminarNotaBoleta = id =>{
@@ -278,8 +334,9 @@ const BarProvider = ({children}) =>{
         setModalFormaPago(!modalFormaPago)
     }
 
-    const handleClickAgregarNotaComision = ({...pedido})=>{
-        setNotaComision([...notaComision, pedido])
+    const handleClickAgregarNotaComision = ({...ticket})=>{
+        setNotaComision([...notaComision, ticket])
+        console.log(notaComision)
     }
 
     const handleEliminarNotaComision = id =>{
@@ -345,7 +402,13 @@ const BarProvider = ({children}) =>{
                 boletas,
                 handleClickAgregarNotaComision,
                 notaComision,
-                handleEliminarNotaComision
+                handleEliminarNotaComision,
+                marcacion,
+                horario,
+                incentivo,
+                pedidosAll,
+                handleSetPedidosAll,
+                comisionBoleta,
                 
             }}
 

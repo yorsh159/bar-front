@@ -1,34 +1,29 @@
+import { formatNumero } from "../helpers"
 import useBar from "../hooks/useBar"
 
 
 
-export default function ResumenComision({pedido}) {
+
+export default function ResumenComision({ticket}) {
 
     const {handleEliminarNotaComision} = useBar()
 
   return (
     <div className='shadow space-y-2 p-4 bg-white'>
-      <div key={pedido.id} className='space-y-2'>
-        <p className='text-lg font-bold'>Mesa:{pedido.mesa}</p>
-        <p className='text-lg font-bold'>Mesero:{pedido.user.name}</p>
-        <p className='text-lg '>Producto: {pedido.productos.map(producto => (
-                                <div key={producto.id} className="border-b border-b-slate-200 last-of-type: border-none py-2">
-                                    {/* <p className="text-sm">ID: {producto.id}</p> */}
-                                    <p className="">{producto.nombre}</p>
-                                    <p>
-                                        Cantidad: {''}
-                                        <span className="font-light">{producto.pivot.cantidad}</span>
-                                    </p>
+      <div key={ticket.id} className='space-y-2'>
 
-                                </div>
-                                ))}
-        </p>
-        <p className='text-lg font-bold'>Total:{pedido.total}</p>      
+        <p className="text-xl font-bold text-slate-600">
+                                Detalle de Nota de venta:
+                            </p>
+        
+        <p className='text-lg'>Nota de venta:{ticket.boleta_id}</p>
+        <p className='text-lg'>Total: S/.{formatNumero(ticket.total_igv)}</p>    
+        <p className='text-lg'>Comision: S/.{formatNumero(ticket.comision)}</p>      
         
         <button
               type="button"
               className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
-              onClick={()=>handleEliminarNotaComision(pedido.id)}
+              onClick={()=>handleEliminarNotaComision(ticket.id)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

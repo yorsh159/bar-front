@@ -1,6 +1,7 @@
 import Modal from 'react-modal';
 import useBar from '../hooks/useBar';
 import { createRef, useState } from 'react';
+import clienteAxios from '../config/axios';
 
 const customStyles = {
   content: {
@@ -20,31 +21,38 @@ export default function Ingresos() {
 
   const codigoRef = createRef();
 
-  const handleClickEntrada =  e=>{
+  const handleClickEntrada = async e=>{
       
-
       const datos={
         codigo: codigoRef.current.value,
+        estado: 'entrada',
       }
 
       try {
-        console.log(datos)
+        const respuesta =  await clienteAxios.post('api/marcacion',datos)
+        console.log(respuesta)
+        console.log(respuesta.data.message)
+        //window.location.reload();
       } catch (error) {
         console.log(error)
       }
   }
 
-  const handleClickSalida =  e=>{
+  const handleClickSalida = async codigo=>{
       
-
     const datos={
       codigo: codigoRef.current.value,
+      estado: 'salida',
     }
 
     try {
-      console.log(datos)
+      const respuesta =  await clienteAxios.put(`api/marcacion/${codigo}`,datos)
+      console.log(respuesta)
+      console.log(respuesta.data.message)
+      //window.location.reload()
     } catch (error) {
       console.log(error)
+      
     }
 }
 
@@ -84,6 +92,7 @@ export default function Ingresos() {
             Entrada
 
             <form action="POST">
+              
             <div className="mb-4">
             <label htmlFor="">Código</label>
             <input

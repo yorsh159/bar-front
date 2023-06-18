@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import {useNavigate} from 'react-router-dom'
 import clienteAxios from "../config/axios"
 
+
 export const useAuth = ({middleware, url}) => {
 
     const token = localStorage.getItem('AUTH_TOKEN')
@@ -19,6 +20,7 @@ export const useAuth = ({middleware, url}) => {
             throw Error(error?.response?.data?.errors)
         })
     )
+
 
     const login = async (datos,setErrores) =>{
         try {
@@ -77,6 +79,9 @@ export const useAuth = ({middleware, url}) => {
                 }
             })
             localStorage.removeItem('AUTH_TOKEN')
+            localStorage.removeItem('Paterno');
+            localStorage.removeItem('Materno');
+            localStorage.removeItem('nombres');
             await mutate(undefined);
         } catch (error) {
             throw Error(error?.response?.data?.errors)

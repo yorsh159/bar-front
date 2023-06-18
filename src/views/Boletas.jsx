@@ -1,12 +1,15 @@
 
 import ResumenBoleta from '../components/ResumenBoleta'
 import clienteAxios from '../config/axios';
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import useBar from '../hooks/useBar';
 import { createRef , useState } from 'react';
-
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify'
 import { formatNumero } from '../helpers';
+import moment from "moment";
 import { Link } from 'react-router-dom';
+import dniAxios from '../config/dniaxios';
 
 
 
@@ -19,36 +22,39 @@ export default function Boletas() {
         }
     })
 
+    const nombres = localStorage.getItem('nombres');
+    const paterno = localStorage.getItem('Paterno');
+    const materno = localStorage.getItem('Materno');
     
+    const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:1000}*/)
 
-    const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:5000}*/)
+    const {nota,handleClickAgregarNota,totalBoleta,subTotalBoleta,igvBoleta,formaPagos} = useBar();
 
-    const {nota,handleClickAgregarNota,totalBoleta,subTotalBoleta,igvBoleta,formaPagos,pedido} = useBar();
-
-    console.log(data)
-    console.log(error)
-    console.log(isLoading)
+    //console.log(data)
+    //console.log(error)
+    //console.log(isLoading)
+    console.log(igvBoleta)
 
     const dniRef = createRef();
     const pagoRef = createRef();
 
     const handleSubmitBoleta = async e=>{
-        e.preventDefault()
+        //e.preventDefault()
 
         const token = localStorage.getItem('AUTH_TOKEN')
 
         const datos= {
             dni: dniRef.current.value,
-                pago: pagoRef.current.value,
-                totalBoleta,
-                igvBoleta,
-                subTotalBoleta,
-                nota: nota.map(pedido=>{
-                    return{
-                        id:pedido.id,
-                        mesa:pedido.mesa,
-                    }
-                }),
+            pago: pagoRef.current.value,
+            totalBoleta,
+            igvBoleta,
+            subTotalBoleta,
+            nota: nota.map(pedido=>{
+                return{
+                    id:pedido.id,
+                    mesa:pedido.mesa,
+                }
+            }),
         }
 
         try {
@@ -66,6 +72,49 @@ export default function Boletas() {
         
     }
 
+    const handlePedidoUpdate = async e=>{
+        //e.preventDefault()
+        const pedidoUpdate={
+            nota: nota.map(pedido=>{
+                return{
+                    id:pedido.id,
+                }
+            }),
+        }
+        try {
+            const respuesta = await clienteAxios.post('api/pedidoUpd',pedidoUpdate)
+            console.log(respuesta.data.message)
+            console.log(pedidoUpdate)
+            window.location.reload();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const buscaDNI = async ()=>{
+        const baseURL = 'https://dniruc.apisperu.com/api/v1/dni';
+        const token1='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pbmRjb250cm9sNTY0QGdtYWlsLmNvbSJ9.YeJ-WwE2Xdnlm7-ZCufb2Wb_u9BjysN8vrQ8rS6Fpws';
+        
+        const dni = dniRef.current.value;
+
+        try {
+
+            const busqueda = await dniAxios.get(`${dni}?token=${token1}`)
+
+            //const busqueda = await axios(`${baseURL}/${dni}?token=${token1}`)
+            localStorage.setItem('Paterno',busqueda.data.apellidoPaterno)
+            localStorage.setItem('Materno',busqueda.data.apellidoMaterno)
+            localStorage.setItem('nombres',busqueda.data.nombres)
+
+            console.log(busqueda)
+            
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
     return (
      
 
@@ -79,6 +128,17 @@ export default function Boletas() {
                             <p className="text-xl font-bold text-slate-600">
                                 Detalle de Pedido:
                             </p>
+
+                            <p>
+                                Mesa:
+                                <span className="font-light px-2">{pedido.mesa}</span>
+                            </p>
+
+                            <p>
+                                Mesero:
+                                <span className="font-light px-2">{pedido.user.name}</span>
+                            </p>
+
                             {pedido.productos.map(producto => (
                                 <div key={producto.id} className="border-b border-b-slate-200 last-of-type: border-none py-2">
                                     {/* <p className="text-sm">ID: {producto.id}</p> */}
@@ -97,18 +157,8 @@ export default function Boletas() {
                             </p>
 
                             <p>
-                                Mesero:
-                                <span className="font-light px-2">{pedido.user.name}</span>
-                            </p>
-
-                            <p>
-                                Mesa:
-                                <span className="font-light px-2">{pedido.mesa}</span>
-                            </p>
-
-                            <p>
                                 Fecha:
-                                <span className="font-light px-2">{pedido.created_at}</span>
+                                <span className="font-light px-2">{moment(pedido.created_at).format('YYYY-MM-DD H:mm:ss')}</span>
                             </p>
 
                             <button className="bg-red-600 hover:bg-red-700 rounded font-bold text-white text-center px-5 py-2 mt-3"
@@ -160,6 +210,19 @@ export default function Boletas() {
                     <div>
                         <label htmlFor="dni" className='text-lg font-bold py-3 text-gray-200'>DNI/RUC: </label>
                         <input type="text" name="dni" id="dni" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="DNI/RUC" ref={dniRef} />
+                        <button type="submit"
+                                onClick={buscaDNI}
+                                className='bg-red-600 hover:bg-red-700 px-5 py-2 ml-3 rounded font-bold text-white text-center'
+                            >
+                                Buscar
+                            </button>
+
+                    </div>
+
+                    <div>
+                        <input type="text" name="apaterno" id="apaterno" className="mt-2 p-2 rounded bg-gray-50" placeholder="Ap. paterno" value={paterno} />
+                        <input type="text" name="amaterno" id="amaterno" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="Ap. materno" value={materno} />
+                        <input type="text" name="nombres" id="nombres" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="Nombres" value={nombres}/>
                     </div>
                 
                     <div>
@@ -184,7 +247,8 @@ export default function Boletas() {
                     <div className='mt-5'>
                             <button type="submit"
                                     value="Guardar"
-                                    onClick={handleSubmitBoleta}
+                                    onClick={()=>{handleSubmitBoleta()
+                                                 handlePedidoUpdate()}}
                                     className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
                             >
                                 Guardar
@@ -201,7 +265,9 @@ export default function Boletas() {
                 </div>
 
             </div>
-                 
+
+            <ToastContainer/>
+     
         </div>
 
 

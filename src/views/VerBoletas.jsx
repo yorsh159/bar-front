@@ -33,7 +33,7 @@ export default function VerBoletas() {
             {data.data.data.map(boleta=>(
                 <div  className="p-5 border-b-8 shadow bg-white">
                     <p className="text-xl font-bold text-slate-600">
-                        Detalle de la boleta:
+                        Detalle del Ticket:
                     </p>
                     {boleta.pedidos.map(pedido=>(
                         <div key={pedido.id} className="border-b border-b-slate-200 last-of-type:border-none py-2">

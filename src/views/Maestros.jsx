@@ -10,10 +10,13 @@ export default function Maestros() {
             <div className="w-2/5 mt-5">
                <Link to='/admin/maestros/formapago' className="flex flex-col hover:bg-blue-500 text-gray-200">
                     Formas de Pago     
-               </Link> 
-               
+               </Link>
             </div>
-            
+            <div className="w-2/5 mt-5">
+               <Link to='/admin/maestros/incentivo' className="flex flex-col hover:bg-blue-500 text-gray-200">
+                    Incentivo
+               </Link> 
+            </div>             
         </div>
     </div>
   )

@@ -9,13 +9,13 @@ export default function Producto({producto}) {
   return (
     <div className="border p-3 shadow bg-white">
         <img src={`/img/${imagen}`} 
-             alt={`imagen ${nombre}`}
+             alt={`${nombre}`}
              className="w-full"
              />
         
-        <div className="p-5">
-            <h3 className="text-2xl font-bold">{nombre}</h3>
-            <p className="mt-5 font-black text-4xl text-amber-400">
+        <div className="p-3">
+            <h3 className="text-xl font-bold">{nombre}</h3>
+            <p className="mt-5 font-bold text-2xl text-amber-400">
                 {formatearDinero(precio)}
             </p>
 

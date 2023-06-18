@@ -33,6 +33,7 @@ export default function Usuarios() {
     const nameEditRef = createRef();
     const emailEditRef = createRef();
     const roleEditRef = createRef();
+    const passwordEditRef = createRef();
 
     const [errores, setErrores,] = useState([]);
     
@@ -65,7 +66,8 @@ export default function Usuarios() {
       const datos = {
         name:nameEditRef.current.value,
         email:emailEditRef.current.value,
-        role:roleEditRef.current.value
+        role:roleEditRef.current.value,
+        password:passwordEditRef.current.value,
       }
 
       try {
@@ -182,6 +184,26 @@ export default function Usuarios() {
                 </select>
               </div> 
             </form>
+
+            <div className="mb-4">
+                <label
+                  className="text-slate-800"
+                  htmlFor="password"
+                >
+                  Contraseña:
+                </label>
+
+                <input
+                  type="password"
+                  id="password"
+                  className="mt-2 w-full p-3 bg-gray-50"
+                  name="password"
+                  placeholder="Contraseña"
+                  defaultValue={usuario.password}
+                  ref={passwordEditRef}
+
+                />
+              </div>
 
             <button onClick={()=>{handleClickEditarUsuario(usuario.id)
                                   handleClickEditModal()}}

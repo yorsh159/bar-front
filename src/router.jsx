@@ -18,6 +18,8 @@ import FormaPago from "./views/FormaPago";
 import VerBoletas from "./views/VerBoletas";
 import BoletaPDF from "./views/BoletaPDF";
 import Comisiones from "./views/Comisiones";
+import Horario from "./views/Horario";
+import Incentivo from "./views/Incentivo";
 
 
 
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
             {
                 path:'/admin/comisiones',
                 element:<Comisiones/>
+            },
+            {
+                path:'/admin/horario',
+                element:<Horario/>
+            },
+            {
+                path:'/admin/maestros/incentivo',
+                element:<Incentivo/>
             }
 
             

@@ -1,4 +1,4 @@
-import jsPDF from "jspdf";
+
 
 export const formatearDinero = cantidad =>{
     return cantidad.toLocaleString('es-US',{

@@ -36,7 +36,7 @@ export default function Sidebar() {
             className="text-center bg-red-500 w-full p-3 font-bold text-white rounded-md"
             onClick={logout}
         >
-          Cancelar Pedido
+          Cerrar Sesión
         </button>
       </div>
 

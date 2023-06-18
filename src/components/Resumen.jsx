@@ -66,7 +66,7 @@ export default function Resumen() {
 
   return (
 
-    <aside className="w-96 h-screen overflow-y-scroll p-5">
+    <aside className="w-80 h-screen overflow-y-scroll p-5">
       <h1 className="text-4xl font-black">Pedido</h1>
 
       <label htmlFor="mesa">Mesa: </label>

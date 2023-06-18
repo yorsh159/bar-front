@@ -259,7 +259,7 @@ export default function Productos() {
                 </label>
                 
                 <select name="categoria_id" id="categoria_id" className="ml-3 mt-2 p-3 bg-gray-50" ref={categoriaEditRef}>
-                    
+
                     {categorias.map(categoria=>{
                       return(
                       <option key={categoria.id} value={categoria.id}>{categoria.nombre}</option>
