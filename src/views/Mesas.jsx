@@ -67,9 +67,14 @@ export default function Mesas() {
 
   const handleClickEliminarMesa = async id=>{
     try {
-      await clienteAxios.delete(`api/mesas/${id}`)
-      console.log(id)
-      window.location.reload()
+      if(window.confirm('Está eliminando una mesa')){
+        await clienteAxios.delete(`api/mesas/${id}`)
+        console.log(id)
+        window.location.reload()
+      }else{
+        alert('De acuerdo')
+      }
+      
     } catch (error) {
       console.log(error)
     }

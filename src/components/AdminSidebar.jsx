@@ -7,11 +7,11 @@ export default function AdminSidebar() {
     const {logout} = useAuth({middleware:'auth'});
 
   return (
-    <aside className="md: w-56 h-screen">
+    <aside className="md: w-52 h-screen">
         <div className="p-0">
             <img src="/img/logo.jpg" 
                  alt="Logo"
-                 className="w-56" 
+                 className="w-52" 
             />
         </div>
 

@@ -5,11 +5,15 @@ import ResumenProducto from "./ResumenProducto";
 import { createRef , useState } from 'react';
 import clienteAxios from '../config/axios';
 import { toast } from 'react-toastify';
+import  useSWR from 'swr';
 
 
 export default function Resumen() {
 
   const{ pedido,total,handleSubmitNuevaOrden,mesas } = useBar();
+
+  
+
   const{ logout } = useAuth({});
 
   const comprobarPedido = () => pedido.length === 0;
@@ -17,6 +21,12 @@ export default function Resumen() {
 
   const mesaRef = createRef();
  
+  const fetcher = ()=>clienteAxios('api/mesas').then(data=>data.data)
+  const {data, error, isLoading} = useSWR('api/mesas',fetcher,{refreshInterval:10000})
+
+ if(isLoading) return 'cargando elementos...'
+
+  console.log(data)
   
   const handleSubmit = async e => {
     e.preventDefault()

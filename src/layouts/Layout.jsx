@@ -26,8 +26,8 @@ export default function Layout() {
   const {user,error} = useAuth({middleware:'auth'});
   const {modal,handleClickModal} = useBar();
 
-  console.log(user)
-  console.log(error)
+  //console.log(user)
+  //console.log(error)
 
   return (
     <>

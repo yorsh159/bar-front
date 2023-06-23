@@ -5,6 +5,7 @@ import useBar from '../hooks/useBar';
 import { formatNumero } from '../helpers';
 import { createRef , useState } from 'react';
 import ResumenComision from '../components/ResumenComision';
+import ResumenColaborador from '../components/ResumenColaborador';
 
 export default function Comisiones() {
 
@@ -20,12 +21,14 @@ export default function Comisiones() {
 
     const { data, error, isLoading } = useSWR('api/boletaComision', fetcher /*,{refreshInterval:5000}*/) 
     //console.log(data)
-    const {notaComision,totalBoleta,handleClickAgregarNotaComision,marcacion,comisionBoleta} = useBar();
-
+    
+    const {notaComision,totalBoleta,handleClickAgregarNotaComision,marcacion,comisionBoleta,notaColaborador,handleClickNotaColaborador,comisionUnitaria} = useBar();
+    //console.log(marcacion)
     const comisionRef = createRef();
     const colaboradorRef = createRef();
-    console.log(comisionBoleta)
+    //console.log(comisionBoleta)
 
+    
 
     const handleSubmitComision = async e=>{
         e.preventDefault()
@@ -34,40 +37,26 @@ export default function Comisiones() {
         try {
 
             const datos = {
-                comision: comisionRef.current.value,
-                colaborador: colaboradorRef.current.value,
-                totalBoleta,
-                notas: nota.map(pedido=>{
+                comisionBoleta,
+                comisionUnitaria,
+                colaborador: notaColaborador.map(colaborador=>{
                     return{
-                        id:pedido.id,
-                        mesa:pedido.mesa
-                        
+                        id:colaborador.colaborador_id
                     }
                 }),
-
-                pedidos: nota.map(pedido=>{
-                    return{  
-                    pedido:pedido.productos.map(producto=>{
-                        return{
-                            nota:pedido.id,
-                            id:producto.id,
-                            cantidad:producto.pivot.cantidad,
-                        }
-                    })}
-                }),
-            
+                nota:notaComision,
                 
             }
 
-            console.log(datos);
+           console.log(datos);
 
-            await clienteAxios.post('api/comisiones',datos,
-            {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            //window.location.reload();
+           await clienteAxios.post('api/comisiones',datos,
+           {
+               headers:{
+                   Authorization: `Bearer ${token}`
+               }
+           })
+           window.location.reload();
             
         } catch (error) {
             console.log(error)
@@ -78,9 +67,9 @@ export default function Comisiones() {
   return (
 
     <div className='md:flex'>
-        <div className='w-1/3'>
+            <div className='w-96 h-auto'>
                 <h1 className='text-4xl font-black text-gray-200'>Nota de Ventas</h1>
-                <div className='h-screen overflow-y-scroll py-4'>
+                <div className='h-80 w-96 overflow-y-scroll py-2 px-2'>
                     {data?.data?.data?.map(ticket => (
                         <div key={ticket.id} className="p-5 border-b shadow  bg-white mb-3">
                             <p className="text-xl font-bold text-slate-600">
@@ -119,46 +108,71 @@ export default function Comisiones() {
                     ))}
                 </div>
                 
+                
+                <h1 className='text-4xl font-black text-gray-200'> Colaborador </h1>
+                <div className='h-80 w-96 overflow-y-scroll py-2 px-2'>
+                  {marcacion.map(marcacion=>{
+                    return(
+                      <div key={marcacion.id} className="p-5 border-b shadow  bg-white mb-3">
+                        <p>Nombre: {marcacion.nombre}</p>
+                        <button className="bg-red-600 hover:bg-red-700 rounded font-bold text-white text-center px-5 py-2 mt-3"
+                                onClick={()=>handleClickNotaColaborador(marcacion)}
+                        >
+                        Agregar
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+                
+
             </div>
 
-            <div className="w-2/3 ml-3">
+            
+
+            <div className="w-2/3 ml-8">
 
                 <h1 className="text-4xl font-black text-gray-200">Comisión</h1>
 
                 <div className='flex flex-col'> 
-
-                    <div className='bg-white h-96 overflow-y-scroll py-4'>
+                    <div className='flex flex-row'> 
+                        <div className='bg-white w-1/2 h-96 overflow-y-scroll py-4 px-2'>
                         
-                        {notaComision.length === 0 ? (
-                            <p>Agregue Notas de pedido</p>
-                        ) : (
-                            notaComision.map(ticket=>(
-                                <ResumenComision
-                                    key={ticket.id}
-                                    ticket={ticket}
-                                />
-                            ))
-                        ) } 
+                            {notaComision.length === 0 ? (
+                                <p>Agregue Nota de venta</p>
+                            ) : (
+                                notaComision.map((ticket)=>(
+                                    <ResumenComision
+                                        key={ticket.id}
+                                        ticket={ticket}
+                                    />
+                                ))
+                            )}
+
+                        </div>
+
+                        <div className='bg-white w-1/2 h-96 overflow-y-scroll py-4 px-2 ml-3'> 
+                            {notaColaborador.length === 0 ? (
+                                <p>Agregue Colaborador</p>
+                                ) : (
+                                notaColaborador.map((marcacion)=>(
+                                    <ResumenColaborador
+                                        key={marcacion.id}
+                                        marcacion={marcacion}
+                                    />
+                                ))
+                            )}  
+                        </div>
                     </div>
 
                     <div className='text-lg font-bold py-3 text-gray-200'>Comision a Pagar: S./
                          {comisionBoleta}
                     </div>
-                    
- 
-                    <div>
-                        <label htmlFor="colaborador" className='text-gray-200'>Colaborador: </label>
-                        <select name="colaborador" id="colaborador" className="ml-3 mt-2 p-3 bg-gray-50" ref={colaboradorRef}>
-                            {marcacion.map(marcacion=>{
-                                return(
-                                    <option value={marcacion.id}>{marcacion.nombre}</option>
-                                )
-                            })}
 
-                        </select>
-                    </div>  
-
-                     
+                    <div className='text-lg font-bold py-3 text-gray-200'>Comision por Usuario: S./
+                         {comisionUnitaria}
+                    </div>
+                                
                     
                     <form className='w-full'
                           onSubmit={handleSubmitComision}

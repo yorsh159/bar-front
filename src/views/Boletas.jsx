@@ -21,22 +21,20 @@ export default function Boletas() {
             Authorization: `Bearer ${token}`,
         }
     })
-
-    const nombres = localStorage.getItem('nombres');
-    const paterno = localStorage.getItem('Paterno');
-    const materno = localStorage.getItem('Materno');
     
     const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:1000}*/)
 
-    const {nota,handleClickAgregarNota,totalBoleta,subTotalBoleta,igvBoleta,formaPagos} = useBar();
+    const {nota,handleClickAgregarNota,totalBoleta,subTotalBoleta,igvBoleta,formaPagos,handleClickObtenerDni} = useBar();
 
-    //console.log(data)
-    //console.log(error)
-    //console.log(isLoading)
-    console.log(igvBoleta)
+    const[dni, setDni]=useState([])
+
 
     const dniRef = createRef();
+    const nombreRef = createRef();
+    const paternoRef = createRef();
+    const maternoRef = createRef();
     const pagoRef = createRef();
+
 
     const handleSubmitBoleta = async e=>{
         //e.preventDefault()
@@ -45,6 +43,9 @@ export default function Boletas() {
 
         const datos= {
             dni: dniRef.current.value,
+            nombre:nombreRef.current.value,
+            paterno:paternoRef.current.value,
+            materno:maternoRef.current.value,
             pago: pagoRef.current.value,
             totalBoleta,
             igvBoleta,
@@ -64,7 +65,7 @@ export default function Boletas() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            //window.location.reload();
+            window.location.reload();
             console.log(datos)
         } catch (error) {
             console.log(error)
@@ -85,33 +86,18 @@ export default function Boletas() {
             const respuesta = await clienteAxios.post('api/pedidoUpd',pedidoUpdate)
             console.log(respuesta.data.message)
             console.log(pedidoUpdate)
-            window.location.reload();
+            //window.location.reload();
         } catch (error) {
             console.log(error)
         }
     }
 
     const buscaDNI = async ()=>{
-        const baseURL = 'https://dniruc.apisperu.com/api/v1/dni';
-        const token1='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pbmRjb250cm9sNTY0QGdtYWlsLmNvbSJ9.YeJ-WwE2Xdnlm7-ZCufb2Wb_u9BjysN8vrQ8rS6Fpws';
-        
         const dni = dniRef.current.value;
-
-        try {
-
-            const busqueda = await dniAxios.get(`${dni}?token=${token1}`)
-
-            //const busqueda = await axios(`${baseURL}/${dni}?token=${token1}`)
-            localStorage.setItem('Paterno',busqueda.data.apellidoPaterno)
-            localStorage.setItem('Materno',busqueda.data.apellidoMaterno)
-            localStorage.setItem('nombres',busqueda.data.nombres)
-
-            console.log(busqueda)
-            
-
-        } catch (error) {
-            console.log(error)
-        }
+        const token1='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pbmRjb250cm9sNTY0QGdtYWlsLmNvbSJ9.YeJ-WwE2Xdnlm7-ZCufb2Wb_u9BjysN8vrQ8rS6Fpws';
+        const busqueda = await dniAxios.get(`${dni}?token=${token1}`)
+        setDni(busqueda.data)
+        console.log(busqueda.data)
     }
 
 
@@ -209,7 +195,7 @@ export default function Boletas() {
 
                     <div>
                         <label htmlFor="dni" className='text-lg font-bold py-3 text-gray-200'>DNI/RUC: </label>
-                        <input type="text" name="dni" id="dni" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="DNI/RUC" ref={dniRef} />
+                        <input type="text" name="dni" id="dni" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="DNI/RUC" ref={dniRef}  />
                         <button type="submit"
                                 onClick={buscaDNI}
                                 className='bg-red-600 hover:bg-red-700 px-5 py-2 ml-3 rounded font-bold text-white text-center'
@@ -220,9 +206,12 @@ export default function Boletas() {
                     </div>
 
                     <div>
-                        <input type="text" name="apaterno" id="apaterno" className="mt-2 p-2 rounded bg-gray-50" placeholder="Ap. paterno" value={paterno} />
-                        <input type="text" name="amaterno" id="amaterno" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="Ap. materno" value={materno} />
-                        <input type="text" name="nombres" id="nombres" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="Nombres" value={nombres}/>
+                        <input type="text" name="nombre" id="apaterno" className="mt-2 p-2 rounded bg-gray-50" placeholder="Nombres" ref={nombreRef}
+                         value={dni.nombres}/>
+                        <input type="text" name="paterno" id="paterno" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="Ap. paterno" ref={paternoRef}
+                         value={dni.apellidoPaterno}/>
+                        <input type="text" name="materno" id="materno" className="ml-3 mt-2 p-2 rounded bg-gray-50" placeholder="Ap. materno" ref={maternoRef}
+                         value={dni.apellidoMaterno}/> 
                     </div>
                 
                     <div>

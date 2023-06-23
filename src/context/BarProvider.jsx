@@ -1,6 +1,7 @@
 import {createContext, useState, useEffect} from 'react'
 import { toast } from 'react-toastify';
 import clienteAxios from '../config/axios';
+import dniAxios from '../config/dniaxios';
 
 const BarContext = createContext();
 
@@ -32,11 +33,14 @@ const BarProvider = ({children}) =>{
     const[formaPagos, setFormaPagos] = useState([])
     const[boletas, setBoletas] = useState([])
     const[notaComision,setNotaComision] = useState([])
+    const[notaColaborador,setNotaColaborador]=useState([])
     const[marcacion,setMarcacion] = useState([])
     const[horario,setHorario]=useState([])
     const[incentivo,setIncentivo]=useState([])
     const[pedidosAll,setPedidosAll]=useState([])
     const[comisionBoleta,setComisionBoleta]=useState(0)
+    const[comisionUnitaria,setComisionUnitaria]=useState(0)
+    const[dni, setDni]=useState([])
 
 
     useEffect(()=>{
@@ -64,6 +68,23 @@ const BarProvider = ({children}) =>{
         setComisionBoleta(showComision)
         //console.log(showComision)
     },[notaComision])
+
+    useEffect(()=>{
+
+        const showComision = notaComision.reduce((comision,ticket)=>(ticket.comision)+comision,0)
+        const nroColaborador = notaColaborador.length
+        
+        if(showComision !=0 && nroColaborador !=0 ){
+        
+        const showComisionUnit = (showComision/nroColaborador)
+        setComisionUnitaria(showComisionUnit)
+        console.log(showComisionUnit)
+        }
+        else{
+        const showComisionUnit = 0
+        setComisionUnitaria(showComisionUnit)
+        }
+    })
 
 
     const obtenerPedidosAll = async()=>{
@@ -314,20 +335,31 @@ const BarProvider = ({children}) =>{
     const handleClickModalPedido = ()=>{
         setModalPedido(!modalPedido)
     }
+
+    const handleClickObtenerDni = async dni =>{
+
+        const token1='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pbmRjb250cm9sNTY0QGdtYWlsLmNvbSJ9.YeJ-WwE2Xdnlm7-ZCufb2Wb_u9BjysN8vrQ8rS6Fpws';
+        const busqueda = await dniAxios.get(`${dni}?token=${token1}`)
+        setDni(busqueda)
+
+
+    }
     
     const handleClickAgregarNota = ({...pedido})=>{
-        setNota([...nota,pedido])
-        console.log(nota)
+        if(nota.some(notaState=>notaState.id === pedido.id)){
+            const notaActualizado = nota.map(notaState=>notaState.id === pedido.id ? pedido:notaActualizado)
+            setNota(notaActualizado)
+        }else{
+            setNota([...nota,pedido])
+        }
+        
+        //console.log(nota)
     }
 
     const handleEliminarNotaBoleta = id =>{
-
-        console.log(id);
-
         const notaActualizado = nota.filter( pedido => pedido.id !== id)
-        console.log(notaActualizado)
+        //console.log(notaActualizado)
         setNota(notaActualizado)
-        
     }
 
     const handleClickModalFormaPago = ()=>{
@@ -335,18 +367,37 @@ const BarProvider = ({children}) =>{
     }
 
     const handleClickAgregarNotaComision = ({...ticket})=>{
-        setNotaComision([...notaComision, ticket])
-        console.log(notaComision)
+        if(notaComision.some(notaComisionState => notaComisionState.id === ticket.id)){
+            const notaComisionActualizado = notaComision.map(notaComisionState => notaComisionState.id === ticket.id ? ticket:notaComisionState)
+            setNotaComision(notaComisionActualizado)
+        }else{
+            setNotaComision([...notaComision, ticket])
+        }
+        
+        //console.log(notaComision)
     }
 
     const handleEliminarNotaComision = id =>{
-
-        console.log(id);
-
         const notaComisionActualizado = notaComision.filter( pedido => pedido.id !== id)
-        console.log(notaComisionActualizado)
         setNotaComision(notaComisionActualizado)
         
+    }
+
+    const handleClickNotaColaborador = ({...marcacion})=>{
+
+        if(notaColaborador.some(notaColaboradorState => notaColaboradorState.id === marcacion.id)){
+            const notaColaboradorActualizado = notaColaborador.map(notaColaboradorState => notaColaboradorState.id === marcacion.id ? marcacion:notaColaboradorState)
+            setNotaColaborador(notaColaboradorActualizado)
+        }else{
+            setNotaColaborador([...notaColaborador,marcacion])
+        }
+        
+    }
+
+    const handleClickEliminarColaborador = id=>{       
+        const notaColaboradorActualizado = notaColaborador.filter(marcacion => marcacion.id !== id)
+        setNotaColaborador(notaColaboradorActualizado)
+        console.log(notaColaboradorActualizado);
     }
 
    
@@ -409,6 +460,12 @@ const BarProvider = ({children}) =>{
                 pedidosAll,
                 handleSetPedidosAll,
                 comisionBoleta,
+                notaColaborador,
+                handleClickNotaColaborador,
+                handleClickEliminarColaborador,
+                comisionUnitaria,
+                dni,
+                handleClickObtenerDni
                 
             }}
 

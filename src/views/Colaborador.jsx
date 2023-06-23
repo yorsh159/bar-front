@@ -77,9 +77,12 @@ export default function Colaborador() {
 
     const handleClickEliminarColaborador = async id =>{
       try {
-        await clienteAxios.delete(`api/colaborador/${id}`)
-        console.log(id)
-        window.location.reload()
+        if(window.confirm('Está eliminando un colaborador')){
+          await clienteAxios.delete(`api/colaborador/${id}`)
+          console.log(id)
+          window.location.reload()
+        }else{alert('De acuerdo')}
+        
       } catch (error) {
         console.log(error)
       }

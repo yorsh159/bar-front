@@ -81,9 +81,16 @@ export default function Usuarios() {
 
     const handleClickEliminarUsuario = async id=>{
       try {
-        await clienteAxios.delete(`api/usuarios/${id}`)
-        console.log(id)
-        window.location.reload()
+
+        if(window.confirm('Está eliminando un usuario')){
+          await clienteAxios.delete(`api/usuarios/${id}`)
+          console.log(id)
+          window.location.reload()
+        }
+        else{
+          alert('De acuerdo')
+        }
+        
       } catch (error) {
         console.log(error)
       }

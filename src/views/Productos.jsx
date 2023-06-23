@@ -36,6 +36,7 @@ export default function Productos() {
     const cantidadEditRef = createRef();
     const categoriaEditRef=createRef();
     const tipoEditRef = createRef();
+    const imagenEditRef = createRef();
 
     const [errores, setErrores] = useState([]);
     
@@ -79,9 +80,14 @@ export default function Productos() {
 
     const handleClickEliminarProducto = async id=>{
       try {
-        await clienteAxios.delete(`api/productos/${id}`)
-        console.log(id)
-        window.location.reload()
+        if(window.confirm('Está eliminando un producto')){
+          await clienteAxios.delete(`api/productos/${id}`)
+          console.log(id)
+          window.location.reload()
+        }else{
+          alert('De acuerdo')
+        };
+        
       } catch (error) {
         console.log(error)
       }
@@ -152,7 +158,7 @@ export default function Productos() {
 
           <div className="bg-white shadow-md rounded-md px-2 py-2">
 
-            <form method="POST">
+            <form encType="multipart/form-data">
 
             {errores ? errores.map(error=> <p key={error.id}>{error}</p>) : null }
 
@@ -267,13 +273,31 @@ export default function Productos() {
                     )}
                     </select> 
               
-              </div>                
+              </div>
+
+              <div className="mb-4">
+                <label
+                  className="text-slate-800"
+                  htmlFor="imagen"
+                >
+                  Imagen
+                </label>
+
+                <input
+                  type="file"
+                  id="imagen"
+                  className="mt-2 w-full p-3 bg-gray-50"
+                  name="imagen"
+                  placeholder="Cargar imagen..."
+                  ref={imagenEditRef}
+                />
+              </div>
+
             </form>
-            <button onClick={()=>{handleClickEditarProducto(producto.id)
-                                  }}
+            <button onClick={()=>{handleClickEditarProducto(producto.id)}}
                       className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-md font-semibold">
                 Guardar
-              </button>  
+            </button>  
           </div>
         </div>
 
