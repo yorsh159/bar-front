@@ -108,9 +108,9 @@ export default function Boletas() {
 
             <div className='w-1/3'>
                 <h1 className='text-4xl font-black text-gray-200'>Pedidos</h1>
-                <div className='h-screen overflow-y-scroll py-4'>
+                <div className='h-screen overflow-y-scroll px-2'>
                     {data?.data?.data?.map(pedido => (
-                        <div key={pedido.id} className="p-5 border-b shadow  bg-white mb-3">
+                        <div key={pedido.id} className="p-4 border-b shadow  bg-white mb-3">
                             <p className="text-xl font-bold text-slate-600">
                                 Detalle de Pedido:
                             </p>
@@ -126,7 +126,7 @@ export default function Boletas() {
                             </p>
 
                             {pedido.productos.map(producto => (
-                                <div key={producto.id} className="border-b border-b-slate-200 last-of-type: border-none py-2">
+                                <div key={producto.id} className="border-b border-b-slate-200 py-2">
                                     {/* <p className="text-sm">ID: {producto.id}</p> */}
                                     <p className="">{producto.nombre}</p>
                                     <p>
@@ -189,7 +189,7 @@ export default function Boletas() {
                          {formatNumero(igvBoleta)}       
                     </div>
 
-                    <div className='text-lg font-bold py-3 text-gray-200'>Total: S./{''}
+                    <div className='text-lg font-bold text-gray-200'>Total: S./{''}
                          {formatNumero(totalBoleta)}
                     </div>
 

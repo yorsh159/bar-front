@@ -2,6 +2,7 @@ import Modal from 'react-modal';
 import useBar from '../hooks/useBar';
 import { createRef, useState } from 'react';
 import clienteAxios from '../config/axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const customStyles = {
   content: {
@@ -20,9 +21,10 @@ Modal.setAppElement('#root');
 export default function Ingresos() {
 
   const codigoRef = createRef();
+  //const mensaje = localStorage.getItem('MENSAJE')
 
   const handleClickEntrada = async e=>{
-      
+
       const datos={
         codigo: codigoRef.current.value,
         estado: 'entrada',
@@ -30,6 +32,8 @@ export default function Ingresos() {
 
       try {
         const respuesta =  await clienteAxios.post('api/marcacion',datos)
+        //localStorage.setItem('MENSAJE',respuesta.data.message)
+        toast.info(respuesta.data.message) 
         console.log(respuesta)
         console.log(respuesta.data.message)
         //window.location.reload();
@@ -47,8 +51,11 @@ export default function Ingresos() {
 
     try {
       const respuesta =  await clienteAxios.put(`api/marcacion/${codigo}`,datos)
+      //localStorage.setItem('MENSAJE',respuesta.data.message)
+      toast.info(respuesta.data.message) 
       console.log(respuesta)
       console.log(respuesta.data.message)
+      
       //window.location.reload()
     } catch (error) {
       console.log(error)
@@ -57,6 +64,7 @@ export default function Ingresos() {
 }
 
   const {handleClickModalEntrada,handleClickModalSalida,modalEntrada,modalSalida} = useBar();
+  
 
   return (
     <div>
@@ -104,9 +112,11 @@ export default function Ingresos() {
                   ref={codigoRef}
             />
             </div>
+
             </form>
 
-            <button onClick={()=>handleClickEntrada()}>
+            <button onClick={()=>{handleClickEntrada()
+                                  handleClickModalEntrada()}}>
               Marcar Entrada
             </button>
 
@@ -134,10 +144,13 @@ export default function Ingresos() {
             </div>
             </form>
 
-            <button onClick={()=>handleClickSalida()}>
+            <button onClick={()=>{handleClickSalida()
+                                  handleClickModalSalida()}}>
               Marcar Salida
             </button>
         </Modal>
+
+        <ToastContainer/>
 
     </div>
   )

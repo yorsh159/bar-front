@@ -16,10 +16,13 @@ import Boletas from "./views/Boletas";
 import Maestros from "./views/Maestros";
 import FormaPago from "./views/FormaPago";
 import VerBoletas from "./views/VerBoletas";
-import BoletaPDF from "./views/BoletaPDF";
-import Comisiones from "./views/Comisiones";
 import Horario from "./views/Horario";
 import Incentivo from "./views/Incentivo";
+import Comision from "./views/Comision";
+import ComisionCompañia from "./views/ComisionCompañia";
+import ComisionTaxi from "./views/ComisionTaxi";
+import Liquidacion from "./views/Liquidacion";
+
 
 
 
@@ -100,7 +103,15 @@ const router = createBrowserRouter([
             },
             {
                 path:'/admin/comisiones',
-                element:<Comisiones/>
+                element:<Comision/>
+            },
+            {
+                path:'/admin/comisiones/compañia',
+                element:<ComisionCompañia/>
+            },
+            {
+                path:'/admin/comisiones/taxi',
+                element:<ComisionTaxi/>
             },
             {
                 path:'/admin/horario',
@@ -109,7 +120,12 @@ const router = createBrowserRouter([
             {
                 path:'/admin/maestros/incentivo',
                 element:<Incentivo/>
-            }
+            },
+            {
+                path:'/admin/liquidacion',
+                element:<Liquidacion/>
+            },
+            
 
             
         ],
@@ -117,10 +133,7 @@ const router = createBrowserRouter([
 
 
     },
-    {
-        path:'/descarga',
-        element:<BoletaPDF/>
-    }
+
 ])
 
 export default router;

@@ -33,14 +33,27 @@ const BarProvider = ({children}) =>{
     const[formaPagos, setFormaPagos] = useState([])
     const[boletas, setBoletas] = useState([])
     const[notaComision,setNotaComision] = useState([])
+    const[notaComisionTaxi,setNotaComisionTaxi]=useState([])
     const[notaColaborador,setNotaColaborador]=useState([])
+    const[notaTaxi, setNotaTaxi]=useState([])
     const[marcacion,setMarcacion] = useState([])
     const[horario,setHorario]=useState([])
+    const[incentivos,setIncentivos]=useState([])
     const[incentivo,setIncentivo]=useState([])
     const[pedidosAll,setPedidosAll]=useState([])
     const[comisionBoleta,setComisionBoleta]=useState(0)
     const[comisionUnitaria,setComisionUnitaria]=useState(0)
+    const[comisionTaxi,setComisionTaxi]=useState(0)
+    const[comisionTaxiUnitaria, setComisionTaxiUnitaria]=useState(0)
+    const[taxi,setTaxi]=useState([])
     const[dni, setDni]=useState([])
+
+    //Liquidacion
+    const[ventaTotal,setVentaTotal]=useState([])
+    const[metPag,setMetPag]=useState([])
+    const[comision,setComision]=useState([])
+    const[ventas,setVentas]=useState([])
+    const[pedidoLibre,setPedidoLibre]=useState([])
 
 
     useEffect(()=>{
@@ -83,6 +96,29 @@ const BarProvider = ({children}) =>{
         else{
         const showComisionUnit = 0
         setComisionUnitaria(showComisionUnit)
+        }
+    })
+
+    useEffect(()=>{
+        const showComisionTaxi = notaComisionTaxi.reduce((comision,ticket)=>(ticket.comision)+comision,0)
+        setComisionTaxi(showComisionTaxi)
+        //console.log(showComision)
+    },[notaComisionTaxi])
+
+    useEffect(()=>{
+
+        const showComisionTaxi = notaComisionTaxi.reduce((comision,ticket)=>(ticket.comision)+comision,0)
+        const nroTaxi = notaTaxi.length
+        
+        if(showComisionTaxi !=0 && nroTaxi !=0 ){
+        
+        const showComisionTaxiUnit = (showComisionTaxi/nroTaxi)
+        setComisionTaxiUnitaria(showComisionTaxiUnit)
+        console.log(showComisionTaxiUnit)
+        }
+        else{
+        const showComisionTaxiUnit = 0
+        setComisionTaxiUnitaria(showComisionTaxiUnit)
         }
     })
 
@@ -190,10 +226,69 @@ const BarProvider = ({children}) =>{
         }
     }
 
-    const obtenerIncentivo = async()=>{
+    const obtenerIncentivos = async()=>{
         try {
             const {data} = await clienteAxios('api/incentivo')
-            setIncentivo(data.data)
+            setIncentivos(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerTaxis = async()=>{
+        try {
+            const {data} = await clienteAxios('api/marcacionTaxi')
+            setTaxi(data.data)
+            //console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerVentaTotal = async()=>{
+        try {
+            const{data}=await clienteAxios('api/liquidacion')
+            setVentaTotal(data.data)
+            //console.log(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerMetPag = async()=>{
+        try {
+            const{data}=await clienteAxios('api/liquidacion/mp')
+            setMetPag(data.data)
+            //console.log(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerComision = async()=>{
+        try {
+            const{data}=await clienteAxios('api/liquidacion/comision')
+            setComision(data.data)
+            //console.log(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerVentas = async()=>{
+        try {
+            const{data}=await clienteAxios('api/liquidacion/ventas')
+            setVentas(data.data)
+            //console.log(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const obtenerPedidoLibre = async()=>{
+        try {
+            const {data} = await clienteAxios('api/liquidacion/pedidoLibre')
+            setPedidoLibre(data.data)
         } catch (error) {
             console.log(error)
         }
@@ -211,8 +306,13 @@ const BarProvider = ({children}) =>{
         obtenerBoletas();
         obtenerMarcacion();
         obtenerHorario();
-        obtenerIncentivo();
- 
+        obtenerIncentivos();
+        obtenerTaxis();
+        obtenerVentaTotal();
+        obtenerMetPag();
+        obtenerComision();
+        obtenerVentas();
+        obtenerPedidoLibre();
     },[])
 
     const handleClickCategoria = id =>{
@@ -251,6 +351,11 @@ const BarProvider = ({children}) =>{
     const handleSetPedidosAll = pedidosAll=>{
         setPedidosAll(pedidosAll)
     }
+
+    const handleSetIncentivo = incentivo=>{
+        setIncentivo(incentivo)
+    }
+
 
 
     const handleAgregarPedido = ({categoria_id, ...producto})=>{
@@ -366,21 +471,20 @@ const BarProvider = ({children}) =>{
         setModalFormaPago(!modalFormaPago)
     }
 
-    const handleClickAgregarNotaComision = ({...ticket})=>{
+    const handleClickAgregarNotaComision = ({...ticket})=>{ 
         if(notaComision.some(notaComisionState => notaComisionState.id === ticket.id)){
             const notaComisionActualizado = notaComision.map(notaComisionState => notaComisionState.id === ticket.id ? ticket:notaComisionState)
             setNotaComision(notaComisionActualizado)
         }else{
             setNotaComision([...notaComision, ticket])
         }
-        
-        //console.log(notaComision)
     }
 
     const handleEliminarNotaComision = id =>{
         const notaComisionActualizado = notaComision.filter( pedido => pedido.id !== id)
-        setNotaComision(notaComisionActualizado)
-        
+        setNotaComision(notaComisionActualizado)  
+        //console.log(id)
+        //console.log('handleEliminarNotaComision')
     }
 
     const handleClickNotaColaborador = ({...marcacion})=>{
@@ -391,16 +495,44 @@ const BarProvider = ({children}) =>{
         }else{
             setNotaColaborador([...notaColaborador,marcacion])
         }
-        
     }
 
     const handleClickEliminarColaborador = id=>{       
         const notaColaboradorActualizado = notaColaborador.filter(marcacion => marcacion.id !== id)
         setNotaColaborador(notaColaboradorActualizado)
-        console.log(notaColaboradorActualizado);
+        //console.log(notaColaboradorActualizado);
     }
 
+    const handleClickNotaTaxi = ({...ticket})=>{
+        if(notaComisionTaxi.some(notaComisionTaxiState => notaComisionTaxiState.id === ticket.id)){
+            const notaComisionTaxiActualizado = notaComisionTaxi.map(notaComisionTaxiState => notaComisionTaxiState.id === ticket.id ? ticket:notaComisionTaxiState)
+            setNotaComisionTaxi(notaComisionTaxiActualizado)
+        }else{
+            setNotaComisionTaxi([...notaComisionTaxi, ticket])
+        }
+    }
+
+    const handleEliminarNotaTaxi = id=>{
+        const notaComisionTaxiActualizado = notaComisionTaxi.filter( ticket => ticket.id !== id)
+        setNotaComisionTaxi(notaComisionTaxiActualizado)  
+        //console.log(id)
+        //console.log('handleEliminarNotaTaxi')
+    }
    
+    const handleClickTaxi = ({...taxi})=>{
+        if(notaTaxi.some(notaTaxiState=>notaTaxiState.id === taxi.id)){
+            const notaTaxiActualizado = notaTaxi.map(notaTaxiState => notaTaxiState.id === taxi.id ? taxi: notaTaxiState)
+            setNotaTaxi(notaTaxiActualizado)
+        }else{
+            setNotaTaxi([...notaTaxi,taxi])
+        }
+        
+    }
+
+    const handleClickEliminarTaxi = id =>{
+        const notaTaxiActualizado = notaTaxi.filter(taxi => taxi.id !== id)
+        setNotaTaxi(notaTaxiActualizado)
+    }
     
 
     return(
@@ -456,7 +588,9 @@ const BarProvider = ({children}) =>{
                 handleEliminarNotaComision,
                 marcacion,
                 horario,
+                incentivos,
                 incentivo,
+                handleSetIncentivo,
                 pedidosAll,
                 handleSetPedidosAll,
                 comisionBoleta,
@@ -465,8 +599,21 @@ const BarProvider = ({children}) =>{
                 handleClickEliminarColaborador,
                 comisionUnitaria,
                 dni,
-                handleClickObtenerDni
-                
+                handleClickObtenerDni,
+                notaTaxi,
+                handleClickNotaTaxi,
+                notaComisionTaxi,
+                handleEliminarNotaTaxi,
+                comisionTaxi,
+                taxi,
+                handleClickTaxi,
+                handleClickEliminarTaxi,
+                comisionTaxiUnitaria,
+                ventaTotal,
+                metPag,
+                comision,
+                ventas,
+                pedidoLibre
             }}
 
         >{children}</BarContext.Provider>

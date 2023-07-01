@@ -67,6 +67,20 @@ export default function Horario() {
 
         </div>
 
+        <div>
+          {horario.map(horario=>{
+            return(
+              <div>
+                <p className='text-2xl font-black text-white'>Horario inicio: {horario.inicio}</p>
+                <p className='text-2xl font-black text-white'>Horario fin: {horario.fin}</p>
+              </div>
+            )
+          })}
+
+        </div>
+
+
+
 
         <ToastContainer/>
 

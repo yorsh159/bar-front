@@ -1,4 +1,3 @@
-
 import clienteAxios from '../config/axios';
 import useSWR from "swr";
 import useBar from '../hooks/useBar';
@@ -7,25 +6,19 @@ import { createRef , useState } from 'react';
 import ResumenComision from '../components/ResumenComision';
 import ResumenColaborador from '../components/ResumenColaborador';
 
-export default function Comisiones() {
-
-    
+export default function ComisionCompañia() {
     const token = localStorage.getItem('AUTH_TOKEN')
     const fetcher = () => clienteAxios('api/boletaComision', {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     })
-    
-    
 
     const { data, error, isLoading } = useSWR('api/boletaComision', fetcher /*,{refreshInterval:5000}*/) 
     //console.log(data)
     
     const {notaComision,totalBoleta,handleClickAgregarNotaComision,marcacion,comisionBoleta,notaColaborador,handleClickNotaColaborador,comisionUnitaria} = useBar();
     //console.log(marcacion)
-    const comisionRef = createRef();
-    const colaboradorRef = createRef();
     //console.log(comisionBoleta)
 
     
@@ -41,10 +34,16 @@ export default function Comisiones() {
                 comisionUnitaria,
                 colaborador: notaColaborador.map(colaborador=>{
                     return{
-                        id:colaborador.colaborador_id
+                        id:colaborador.colaborador_id,
+                        tipo:colaborador.tipo
                     }
+
                 }),
-                nota:notaComision,
+                nota:notaComision.map(boleta=>{
+                    return{
+                        id:boleta.boleta_id,
+                    }
+                })
                 
             }
 

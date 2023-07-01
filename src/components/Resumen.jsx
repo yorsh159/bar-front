@@ -90,7 +90,7 @@ export default function Resumen() {
       </select> 
 
 
-      <div className="py-10">
+      <div className="py-3">
         {pedido.length === 0 ? (
           <p className="text-cenet text-2xl">
             Ingrese productos

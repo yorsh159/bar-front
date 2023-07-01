@@ -22,34 +22,56 @@ export default function Incentivo() {
 
     const codigoRef = createRef();
     const montoRef = createRef();
+    const montoTaxiRef=createRef();
     const productoRef = createRef();
 
     const [errores, setErrores] = useState([]);
 
-    const {handleClickModal,modal,modalEdit,handleClickEditModal,productos,incentivo} = useBar();
+    const {handleClickModal,modal,modalEdit,handleClickEditModal,productos,incentivos,incentivo,handleSetIncentivo} = useBar();
 
     const handleClickIncentivo = async e=>{
 
         const datos={
             codigo:codigoRef.current.value,
             monto:montoRef.current.value,
+            montoTaxi:montoTaxiRef.current.value,
             producto: productoRef.current.value,
         }
 
         try {
             await clienteAxios.post('api/incentivo',datos)
-            console.log(datos)
             window.location.reload()
+            //console.log(datos)
+            
         } catch (error) {
             console.log(error)
         }
     }
 
+    const handleClickEditarIncentivo = async id=>{
+      
+      const datos={
+        codigo:codigoRef.current.value,
+        monto:montoRef.current.value,
+        montoTaxi:montoTaxiRef.current.value
+      }
+      try {
+        await clienteAxios.put(`api/incentivo/${id}`,datos)
+        window.location.reload()
+        //console.log(datos)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     const handleClickEliminar = async id =>{
       try {
-        await clienteAxios.delete(`api/incentivo/${id}`)
-        console.log(id)
-        window.location.reload()
+        if(window.confirm('Está seguro de eliminarlo?')){
+          await clienteAxios.delete(`api/incentivo/${id}`)
+          console.log(id)
+          window.location.reload()
+        }else{}
+        
       } catch (error) {
         console.log(error)
       }
@@ -136,7 +158,7 @@ export default function Incentivo() {
                   className="text-slate-800"
                   htmlFor="monto"
                 >
-                  Comision
+                  Comision Acompañante
                 </label>
 
                 <input
@@ -148,9 +170,112 @@ export default function Incentivo() {
                   ref={montoRef}
 
                 />
-            </div>               
+            </div>
+            <div className="mb-4">
+                <label
+                  className="text-slate-800"
+                  htmlFor="montoTaxi"
+                >
+                  Comision Taxista
+                </label>
+
+                <input
+                  type="text"
+                  id="montoTaxi"
+                  className="mt-2 w-full p-3 bg-gray-50"
+                  name="montoTaxi"
+                  placeholder="Ej: 60.00"
+                  ref={montoTaxiRef}
+
+                />
+            </div>                
             </form>
             <button onClick={handleClickIncentivo}
+                    className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-md font-semibold">
+                Guardar
+            </button>  
+          
+          </div>
+        </div>
+      </Modal>
+
+      <Modal isOpen={modalEdit} style={customStyles}>
+      <div>
+          <div className="flex justify-between">
+            <h1 className="text-2xl font-black">Editar</h1>
+
+            
+              <button onClick={handleClickEditModal}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            
+          </div>
+
+          <div className="bg-white shadow-md rounded-md px-2 py-2">
+
+            <form>
+
+            {errores ? errores.map(error=> <p key={error.id}>{error}</p>) : null }
+
+            <div className="mb-4">
+                <label
+                  className="text-slate-800"
+                  htmlFor="codigo"
+                >
+                  Código
+                </label>
+
+                <input
+                  type="text"
+                  id="codigo"
+                  className="mt-2 w-full p-3 bg-gray-50"
+                  name="codigo"
+                  defaultValue={incentivo.codigo}
+                  ref={codigoRef}
+
+                />
+            </div>
+
+            <div className="mb-4">
+                <label
+                  className="text-slate-800"
+                  htmlFor="monto"
+                >
+                  Comision Acompañante
+                </label>
+
+                <input
+                  type="text"
+                  id="monto"
+                  className="mt-2 w-full p-3 bg-gray-50"
+                  name="monto"
+                  defaultValue={incentivo.monto}
+                  ref={montoRef}
+
+                />
+            </div>
+            <div className="mb-4">
+                <label
+                  className="text-slate-800"
+                  htmlFor="montoTaxi"
+                >
+                  Comision Taxista
+                </label>
+
+                <input
+                  type="text"
+                  id="montoTaxi"
+                  className="mt-2 w-full p-3 bg-gray-50"
+                  name="montoTaxi"
+                  defaultValue={incentivo.monto_taxi}
+                  ref={montoTaxiRef}
+
+                />
+            </div>                
+            </form>
+            <button onClick={()=>handleClickEditarIncentivo(incentivo.id)}
                     className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-md font-semibold">
                 Guardar
             </button>  
@@ -172,14 +297,15 @@ export default function Incentivo() {
           </thead>
           <tbody>
             
-            {incentivo.map(incentivo=>{
+            {incentivos.map(incentivo=>{
               return(
                 <tr key={incentivo.id} className="border-b dark:border-neutral-500 h-16">
                   <td className="text-lg">{incentivo.codigo}</td>
                   <td className="text-lg">{incentivo.nombre}</td>
                   <td className="text-lg">{formatNumero(incentivo.monto)}</td>
                   <td className="object-center">
-                    <button >
+                    <button onClick={()=>{handleClickEditModal()
+                                          handleSetIncentivo(incentivo)}}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                       </svg>

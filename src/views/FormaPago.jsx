@@ -51,6 +51,7 @@ export default function FormaPago() {
         const token = localStorage.getItem('AUTH_TOKEN')
 
         try {
+        if(window.confirm('Está eliminando un producto')){
           await clienteAxios.delete(`api/pagos/${id}`,{
             headers:{
                 Authorization: `Bearer ${token}`
@@ -58,6 +59,10 @@ export default function FormaPago() {
           })
           console.log(id)
           window.location.reload()
+        }else{
+          
+        };
+          
         } catch (error) {
           console.log(error)
         }

@@ -12,18 +12,4 @@ export const formatNumero = total =>{
 }
 
 
-// var doc = new jsPDF();
-// var elementHTML = $('#boleta').html();
-// var specialElementHandlers = {
-//   '#elementH' : function (element,renderer){
-//     return true;
-//    }
-// };
-
-// doc.fromHTML(elementHTML,15,15,{
-//     'with':170,
-//     'elementHandlers': specialElementHandlers
-// });
-
-// doc.save('descarga.pdf')
 

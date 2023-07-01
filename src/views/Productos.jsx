@@ -43,16 +43,6 @@ export default function Productos() {
     const handleSubmit = async e =>{
         e.preventDefault()
         
-        // const datos = {
-        //     codigo: codigoRef.current.value,
-        //     nombre: nombreRef.current.value,
-        //     precio: precioRef.current.value,
-        //     cantidad: cantidadRef.current.value,
-        //     categoria_id: categoriaRef.current.value,
-        //     tipo: tipoRef.current.value,
-        //     imagen: imagenRef.current.files[0].name,
-        // }
-
         const datos = new FormData();
         datos.append('codigo',codigoRef.current.value);
         datos.append('nombre',nombreRef.current.value);
@@ -62,8 +52,7 @@ export default function Productos() {
         datos.append('tipo',tipoRef.current.value);
         datos.append('imagen',imagenRef.current.files[0]);
 
-
-        console.log(datos);
+        //console.log(datos);
 
         try {
           const respuesta = await clienteAxios.post('api/productos',datos)
@@ -74,8 +63,6 @@ export default function Productos() {
           console.log(Object.values(error.response.data.errors))
           console.log(error)
         }
-            
-       
     }
 
     const handleClickEliminarProducto = async id=>{
@@ -94,7 +81,6 @@ export default function Productos() {
     }
 
     const handleClickEditarProducto = async id=>{
-  
 
       const datos = {
         codigo: codigoEditRef.current.value,
@@ -105,15 +91,28 @@ export default function Productos() {
         tipo: tipoEditRef.current.value,
       }
 
+      //const datosEdit = new FormData();
+      //datosEdit.append('codigo',codigoEditRef.current.value);
+      //datosEdit.append('nombre',nombreEditRef.current.value);
+      //datosEdit.append('precio',precioEditRef.current.value);
+      //datosEdit.append('cantidad',cantidadEditRef.current.value);
+      //datosEdit.append('categoria_id',categoriaEditRef.current.value);
+      //datosEdit.append('tipo',tipoEditRef.current.value);
+      //datosEdit.append('imagen',imagenEditRef.current.files[0]);
+      
+      //console.log(codigoEditRef.current.value)
+      //console.log(datosEdit.append('codigo',codigoEditRef.current.value))
+
       try {
           await clienteAxios.put(`api/productos/${id}`,datos)
-          //console.log(id)
-          //console.log(datos)
+          console.log(id)
+          console.log(datos)
           window.location.reload()
       } catch (error) {
-          setErrores(Object.values(error.response.data.errors))
-          console.log(Object.values(error.response.data.errors))
+          setErrores(Object.values(error.response.datosEdit.errors))
+          console.log(Object.values(error.response))
           console.log(error)
+          //console.log(datosEdit)
       }
     }
 
@@ -165,16 +164,16 @@ export default function Productos() {
             <div className="mb-4">
                 <label
                   className="text-slate-800"
-                  htmlFor="codigo"
+                  htmlFor="codigoEdit"
                 >
                   Codigo:
                 </label>
 
                 <input
                   type="text"
-                  id="codigo"
+                  id="codigoEdit"
                   className="mt-2 w-full p-3 bg-gray-50"
-                  name="codigo"
+                  name="codigoEdit"
                   defaultValue={producto.codigo}
                   ref={codigoEditRef}
 
@@ -275,7 +274,7 @@ export default function Productos() {
               
               </div>
 
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label
                   className="text-slate-800"
                   htmlFor="imagen"
@@ -291,7 +290,7 @@ export default function Productos() {
                   placeholder="Cargar imagen..."
                   ref={imagenEditRef}
                 />
-              </div>
+              </div> */}
 
             </form>
             <button onClick={()=>{handleClickEditarProducto(producto.id)}}

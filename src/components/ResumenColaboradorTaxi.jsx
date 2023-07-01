@@ -1,26 +1,21 @@
-import { formatNumero } from "../helpers"
-import useBar from "../hooks/useBar"
+import React from 'react'
+import useBar from '../hooks/useBar'
 
-export default function ResumenComision({ticket}) {
+export default function ResumenColaboradorTaxi({taxi}) {
 
-  const {handleEliminarNotaComision} = useBar()
-
+  const {handleClickEliminarTaxi} = useBar()
   return (
-    <div className='shadow space-y-2 p-4 bg-white'>
-      <div key={ticket.id} className='space-y-2'>
 
-        <p className="text-xl font-bold text-slate-600">
-                                Detalle de Nota de venta:
-                            </p>
+    <div className='shadow space-y-2 p-4 bg-white'>
+      <div key={taxi.id} className='space-y-2'>
         
-        <p className='text-lg'>Nota de venta:{ticket.boleta_id}</p>
-        <p className='text-lg'>Total: S/.{formatNumero(ticket.total_igv)}</p>    
-        <p className='text-lg'>Comision: S/.{formatNumero(ticket.comision)}</p>      
+        <p className='text-lg'>Nombre:{taxi.nombre}</p>
+
         
         <button
               type="button"
               className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
-              onClick={()=>handleEliminarNotaComision(ticket.id)}
+              onClick={()=>handleClickEliminarTaxi(taxi.id)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -41,5 +36,6 @@ export default function ResumenComision({ticket}) {
       </div>
 
     </div>
-  )
+
+    )
 }
