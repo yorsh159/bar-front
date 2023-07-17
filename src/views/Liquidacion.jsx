@@ -51,8 +51,8 @@ export default function Liquidacion() {
 
           {comision.length === 0 ? (<p>No hay comisiones registradas</p>) : (comision.map(comision => {
             return (<p>
-              <span>{comision.Metodo}: </span>
-              <span>S/. {comision.Total}</span>
+              <span>{comision.nombre}: </span>
+              <span>S/. {comision.comision_total}</span>
             </p>)
           }))}
 

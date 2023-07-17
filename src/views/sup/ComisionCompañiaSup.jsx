@@ -1,12 +1,12 @@
-import clienteAxios from '../config/axios';
+import clienteAxios from '../../config/axios';
 import useSWR from "swr";
-import useBar from '../hooks/useBar';
-import { formatNumero } from '../helpers';
+import useBar from '../../hooks/useBar';
+import { formatNumero } from '../../helpers';
 import { createRef , useState } from 'react';
-import ResumenComision from '../components/ResumenComision';
-import ResumenColaborador from '../components/ResumenColaborador';
+import ResumenComision from '../../components/ResumenComision';
+import ResumenColaborador from '../../components/ResumenColaborador';
 
-export default function ComisionCompañia() {
+export default function ComisionCompañiaSup() {
     const token = localStorage.getItem('AUTH_TOKEN')
     const fetcher = () => clienteAxios('api/boletaComision', {
         headers: {
@@ -136,7 +136,7 @@ export default function ComisionCompañia() {
                 <div className='flex flex-col'> 
                     <div className='flex flex-row'> 
                         <div className='bg-white w-1/2 h-96 overflow-y-scroll py-4 px-2'>
-
+                        
                             {notaComision.length === 0 ? (
                                 <p>Agregue Nota de venta</p>
                             ) : (

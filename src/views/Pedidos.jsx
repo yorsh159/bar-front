@@ -10,6 +10,24 @@ export default function Pedidos() {
 
   const {pedidosAll} = useBar();
  
+  const token = localStorage.getItem('AUTH_TOKEN')
+
+  const clickEliminarPedido = async(id)=>{
+      console.log(id)
+      try {
+        if(window.confirm('Está eliminando un pedido')){
+          await clienteAxios.put(`api/pedidos/${id}`,'',{headers:{
+            Authorization: `Bearer ${token}`
+            }})
+          //window.location.reload()
+        }else{
+
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
   return (
     <div>
       <h1 className='text-4xl font-black text-gray-200'>Pedidos</h1>
@@ -56,7 +74,13 @@ export default function Pedidos() {
               <span className="px-2 font-bold">S./ {formatNumero(pedido.total)}</span>
              </p>
           
-             { pedido.ticket_estado == 0  ? <p className="text-green-500 font-semibold text-lg">Estado: Libre</p> : <p className="text-red-500 font-semibold text-lg">Estado: En Ticket</p>}
+             { pedido.ticket_estado == 0  ? 
+                <div>
+                <p className="text-green-500 font-semibold text-lg">Estado: Libre</p> 
+                <button onClick={()=>clickEliminarPedido(pedido.id)}
+                        className="bg-red-600 hover:bg-red-500 rounded font-bold text-white text-center px-2 py-1 mt-3">Anular</button>
+                </div>
+                : <p className="text-red-500 font-semibold text-lg">Estado: En Ticket</p>}
          
           </div>
         ))}

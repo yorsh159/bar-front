@@ -79,9 +79,6 @@ export const useAuth = ({middleware, url}) => {
                 }
             })
             localStorage.removeItem('AUTH_TOKEN')
-            localStorage.removeItem('Paterno');
-            localStorage.removeItem('Materno');
-            localStorage.removeItem('nombres');
             await mutate(undefined);
         } catch (error) {
             throw Error(error?.response?.data?.errors)
@@ -95,6 +92,14 @@ export const useAuth = ({middleware, url}) => {
 
         if(middleware === 'guest' && user && user.role === 'admin'){
             navigate('/admin')
+        }
+
+        if(middleware === 'guest' && user && user.role === 'caja'){
+            navigate('/caja')
+        }
+
+        if(middleware === 'guest' && user && user.role === 'sup'){
+            navigate('/supervisor')
         }
         
         if(middleware === 'admin' && user && user.role !=='admin'){

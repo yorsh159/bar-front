@@ -10,6 +10,7 @@ const BarProvider = ({children}) =>{
     const[categorias, setCategorias] = useState([]);
     const[categoriaActual, setCategoriaActual] = useState({})
     const[modal, setModal] = useState(false);
+    const[modalBoleta, setModalBoleta] = useState(false);
     const[modalEdit,setModalEdit] = useState(false);
     const[modalEntrada,setModalEntrada] = useState(false);
     const[modalSalida,setModalSalida] = useState(false);
@@ -47,6 +48,7 @@ const BarProvider = ({children}) =>{
     const[comisionTaxiUnitaria, setComisionTaxiUnitaria]=useState(0)
     const[taxi,setTaxi]=useState([])
     const[dni, setDni]=useState([])
+    const[boleta,setBoleta]=useState([])
 
     //Liquidacion
     const[ventaTotal,setVentaTotal]=useState([])
@@ -320,6 +322,10 @@ const BarProvider = ({children}) =>{
         setCategoriaActual(categoria)
     }
 
+    const handleClickModalBoleta = ()=>{
+        setModalBoleta(!modalBoleta)
+    }
+
     const handleClickModal = () =>{
         setModal(!modal)
     }
@@ -354,6 +360,10 @@ const BarProvider = ({children}) =>{
 
     const handleSetIncentivo = incentivo=>{
         setIncentivo(incentivo)
+    }
+
+    const handleSetBoleta = boleta=>{
+        setBoleta(boleta)
     }
 
 
@@ -613,7 +623,11 @@ const BarProvider = ({children}) =>{
                 metPag,
                 comision,
                 ventas,
-                pedidoLibre
+                pedidoLibre,
+                modalBoleta,
+                handleClickModalBoleta,
+                handleSetBoleta,
+                boleta
             }}
 
         >{children}</BarContext.Provider>
