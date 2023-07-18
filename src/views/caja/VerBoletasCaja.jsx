@@ -78,7 +78,7 @@ export default function VerBoletasCaja() {
                Lista de Notas de venta
               </p>
   
-              <Link to='http://127.0.0.1:8000/ticket' target="_blank" className="bg-amber-400 hover:bg-amber-500 text-white p-3 font-bold rounded-md">Ver Detalles</Link> 
+              <Link to='http://bar.milenium2022.net/ticket' target="_blank" className="bg-amber-400 hover:bg-amber-500 text-white p-3 font-bold rounded-md">Ver Detalles</Link> 
   
           <div className="mt-5">
               {data.data.data.map(boleta=>(

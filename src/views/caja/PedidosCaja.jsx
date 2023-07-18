@@ -16,7 +16,7 @@ export default function PedidosCaja() {
           await clienteAxios.put(`api/pedidos/${id}`,'',{headers:{
             Authorization: `Bearer ${token}`
             }})
-          //window.location.reload()
+          window.location.reload()
         }else{
 
         }
