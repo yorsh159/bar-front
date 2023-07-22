@@ -5,7 +5,7 @@ import useBar from '../hooks/useBar'
 
 export default function Liquidacion() {
 
-  const{ventaTotal,metPag,comision,ventas,pedidoLibre}=useBar();
+  const{ventaTotal,metPag,comision,ventas,pedidoLibre,comisionPagada}=useBar();
 
   return (
     <div>
@@ -40,6 +40,22 @@ export default function Liquidacion() {
               </p>
             )
           })}
+        </p>
+      </div>
+      
+      <div className="p-5 border-b shadow  bg-white">
+        <p className="text-xl font-bold text-slate-600">
+          Comisiones Pagadas del Día
+        </p>
+        <p className='font-light px-2'>
+
+          {comisionPagada.length === 0 ? (<p>No hay comisiones pagadas</p>) : (comisionPagada.map(comision => {
+            return (<p>
+              <span>Total Pagado: </span>
+              <span>S/. {comision.comision_pagada}</span>
+            </p>)
+          }))}
+
         </p>
       </div>
 

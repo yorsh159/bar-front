@@ -56,7 +56,7 @@ const BarProvider = ({children}) =>{
     const[comision,setComision]=useState([])
     const[ventas,setVentas]=useState([])
     const[pedidoLibre,setPedidoLibre]=useState([])
-
+    const[comisionPagada,setComisionPagada]=useState([])
 
     useEffect(()=>{
         const nuevoTotal = pedido.reduce((total,producto)=>(producto.precio * producto.cantidad)+total,0)
@@ -295,6 +295,15 @@ const BarProvider = ({children}) =>{
             console.log(error)
         }
     }
+
+    const obtenerComisionPagada = async()=>{
+        try {
+            const {data} = await clienteAxios('api/liquidacion/comisionPagada')
+            setComisionPagada(data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
   
 
     useEffect(()=>{
@@ -315,6 +324,7 @@ const BarProvider = ({children}) =>{
         obtenerComision();
         obtenerVentas();
         obtenerPedidoLibre();
+        obtenerComisionPagada();
     },[])
 
     const handleClickCategoria = id =>{
@@ -627,7 +637,8 @@ const BarProvider = ({children}) =>{
                 modalBoleta,
                 handleClickModalBoleta,
                 handleSetBoleta,
-                boleta
+                boleta,
+                comisionPagada
             }}
 
         >{children}</BarContext.Provider>

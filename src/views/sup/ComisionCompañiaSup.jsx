@@ -16,6 +16,9 @@ export default function ComisionCompañiaSup() {
 
     const { data, error, isLoading } = useSWR('api/boletaComision', fetcher /*,{refreshInterval:5000}*/) 
     //console.log(data)
+
+    const comprobarComision = () => notaColaborador.length === 0 
+    const comprobarColaborador = () => notaComision.length === 0
     
     const {notaComision,totalBoleta,handleClickAgregarNotaComision,marcacion,comisionBoleta,notaColaborador,handleClickNotaColaborador,comisionUnitaria} = useBar();
     //console.log(marcacion)
@@ -114,7 +117,8 @@ export default function ComisionCompañiaSup() {
                     return(
                       <div key={marcacion.id} className="p-5 border-b shadow  bg-white mb-3">
                         <p>Nombre: {marcacion.nombre}</p>
-                        <button className="bg-red-600 hover:bg-red-700 rounded font-bold text-white text-center px-5 py-2 mt-3"
+                        <button className={`${comprobarColaborador() ? 'bg-red-400':'bg-red-600 hover:bg-red-7000'} px-5 py-2 rounded font-bold text-white text-center`}
+                                disabled={comprobarColaborador()}
                                 onClick={()=>handleClickNotaColaborador(marcacion)}
                         >
                         Agregar
@@ -179,8 +183,8 @@ export default function ComisionCompañiaSup() {
                         <div className='mt-5'>
                             <input type="submit"
                                    value="Guardar"
-
-                                   className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
+                                   disabled={comprobarComision()}
+                                   className={`${comprobarComision() ? 'bg-red-400':'bg-red-600 hover:bg-red-7000'} px-5 py-2 rounded font-bold text-white text-center`}
                              />
                         </div>
                     </form>      

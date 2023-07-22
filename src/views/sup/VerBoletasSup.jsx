@@ -20,7 +20,7 @@ const customStyles = {
   
 Modal.setAppElement('#root');
 
-export default function VerBoletasCaja() {
+export default function VerBoletasSup() {
     const motivoRef = createRef();
 
     const token = localStorage.getItem('AUTH_TOKEN')

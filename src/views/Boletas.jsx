@@ -21,6 +21,8 @@ export default function Boletas() {
             Authorization: `Bearer ${token}`,
         }
     })
+
+    const comprobarNota= () => nota.length === 0;
     
     const { data, error, isLoading } = useSWR('api/pedidos', fetcher /*,{refreshInterval:1000}*/)
 
@@ -115,6 +117,8 @@ export default function Boletas() {
                                 Detalle de Pedido:
                             </p>
 
+                            <p>ID:</p><span>{pedido.id}</span>
+
                             <p>
                                 Mesa:
                                 <span className="font-light px-2">{pedido.mesa}</span>
@@ -163,7 +167,7 @@ export default function Boletas() {
             
             <div className="w-2/3 ml-3">
 
-                <h1 className="text-4xl font-black text-gray-200">Tickets</h1>
+                <h1 className="text-4xl font-black text-gray-200">Notas de Venta</h1>
 
                 <div className='flex flex-col'> 
 
@@ -235,22 +239,16 @@ export default function Boletas() {
 
                     <div className='mt-5'>
                             <button type="submit"
-                                    value="Guardar"
+                                    value="Guardar"                     
                                     onClick={()=>{handleSubmitBoleta()
                                                  handlePedidoUpdate()}}
-                                    className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
+                                    className={`${comprobarNota() ? 'bg-red-400':'bg-red-600 hover:bg-red-7000'} px-5 py-2 rounded font-bold text-white text-center`}
+                                    disabled={comprobarNota()}
                             >
                                 Guardar
                             </button>
                     </div>
                     
-
-                    {/* <div className='mt-5'>
-                    <Link to='/descarga' target="_blank" className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'>
-                        Descargar Boleta
-                    </Link>
-                    </div>        */}
-
                 </div>
 
             </div>

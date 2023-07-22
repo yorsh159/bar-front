@@ -13,6 +13,9 @@ export default function ComisionTaxiCaja() {
     })
     const { data, error, isLoading } = useSWR('api/boletaComisionTaxi', fetcher /*,{refreshInterval:5000}*/)
   
+    const comprobarComision = () => notaComisionTaxi.length === 0 
+    const comprobarColaborador = () => notaTaxi.length === 0
+
     //console.log(data)
     const handleSubmitComision = async e=>{
       e.preventDefault()
@@ -102,7 +105,8 @@ export default function ComisionTaxiCaja() {
                   return(
                       <div key={taxi.id} className="p-5 border-b shadow  bg-white mb-3">
                           <p>Nombre: {taxi.nombre}</p>
-                          <button className="bg-red-600 hover:bg-red-700 rounded font-bold text-white text-center px-5 py-2 mt-3"
+                          <button className={`${comprobarComision() ? 'bg-red-400':'bg-red-600 hover:bg-red-7000'} px-5 py-2 rounded font-bold text-white text-center`}
+                                 disabled={comprobarComision()}
                                  onClick={()=>handleClickTaxi(taxi)} 
                           >
                           Agregar
@@ -157,7 +161,8 @@ export default function ComisionTaxiCaja() {
                       <div className='mt-5'>
                           <input type="submit"
                                  value="Guardar"
-                                 className='bg-red-600 hover:bg-red-700 px-5 py-2 rounded font-bold text-white text-center'
+                                 disabled={comprobarColaborador()}
+                                 className={`${comprobarColaborador() ? 'bg-red-400':'bg-red-600 hover:bg-red-7000'} px-5 py-2 rounded font-bold text-white text-center`}
                                  onClick={handleSubmitComision}
                           />  
                       </div>

@@ -18,7 +18,7 @@ export default function AdminSidebar() {
         <nav className="flex flex-col">
             <Link to='/admin' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Pedidos</Link>
             <Link to='/admin/boletas' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Generar Nota</Link>
-            <Link to='/admin/verboletas' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Ver Tickets</Link>
+            <Link to='/admin/verboletas' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Ver Notas</Link>
             <Link to='/admin/comisiones' className="font-bold text-lg border p-2 hover:bg-blue-500">Comisiones</Link>
             <Link to='/admin/ingresos' className="font-bold text-lg border p-2 hover:bg-blue-500">Ingresos</Link>
             <Link to='/admin/horario' className="font-bold text-lg border p-2 hover:bg-blue-500">Horario</Link>

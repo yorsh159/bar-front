@@ -15,9 +15,11 @@ export default function SupervisorSidebar() {
         </div>
 
         <nav className="flex flex-col">
-            <Link to='/supervisor/pedidos' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Pedidos</Link>         
-            <Link to='/supervisor/comision' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Comision</Link>  
-            <Link to='/supervisor/administracion' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Administracion</Link>  
+          <Link to='/supervisor/administracion' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Administracion</Link>  
+          <Link to='/supervisor/comision' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Comision</Link>
+          <Link to='/supervisor/horario' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Horario</Link>
+          <Link to='/supervisor/verboletas' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Notas de Venta</Link>     
+          <Link to='/supervisor/pedidos' className="font-bold text-lg border w-full p-2 hover:bg-blue-500">Pedidos</Link>            
         </nav>
 
         <div className='my-5 px-5'>

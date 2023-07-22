@@ -26,6 +26,7 @@ import SupLayout from "./layouts/SupLayout";
 import VerBoletasCaja from "./views/caja/VerBoletasCaja";
 import ComisionCaja from "./views/caja/ComisionCaja";
 import BoletasCaja from "./views/caja/BoletasCaja";
+import PedidosCaja from "./views/caja/PedidosCaja";
 import ComisionTaxiCaja from "./views/caja/ComisionTaxiCaja";
 import ComisionCompañiaCaja from "./views/caja/ComisionCompañiaCaja";
 import SupervisorLayout from "./layouts/SupervisorLayout";
@@ -35,7 +36,9 @@ import ComisionTaxiSup from "./views/sup/ComisionTaxiSup";
 import ComisionCompañiaSup from "./views/sup/ComisionCompañiaSup";
 import AdministracionSup from "./views/sup/AdministracionSup";
 import UsuarioSup from "./views/sup/UsuarioSup";
-import PedidosCaja from "./views/caja/PedidosCaja";
+import ColaboradorSup from "./views/sup/ColaboradorSup";
+import HorarioSup from "./views/sup/HorarioSup";
+import VerBoletasSup from "./views/sup/VerBoletasSup";
 
 
 
@@ -203,7 +206,20 @@ const router = createBrowserRouter([
             {
                 path:'/supervisor/administracion/usuario',
                 element:<UsuarioSup/>
-            }
+            },
+            {
+                path:'/supervisor/administracion/colaborador',
+                element:<ColaboradorSup/>
+            },
+            {
+                path:'/supervisor/horario',
+                element:<HorarioSup/>
+            },
+            {
+                path:'/supervisor/verboletas',
+                element:<VerBoletasSup/>
+            },
+
         ]
     }
 

@@ -42,6 +42,8 @@ export default function Pedidos() {
               Detalle de Pedido:
             </p>
 
+             <p className="font-bold">ID: {pedido.id}</p> 
+
              <p>
                Mesero:
                <span className="font-light px-2">{pedido.user.name}</span>

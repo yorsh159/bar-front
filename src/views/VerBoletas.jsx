@@ -78,7 +78,7 @@ export default function VerBoletas() {
              Lista de Notas de venta
             </p>
 
-            <Link to='http://bar.milenium2022.net/ticket' target="_blank" className="bg-amber-400 hover:bg-amber-500 text-white p-3 font-bold rounded-md">Ver Detalles</Link> 
+            <Link to='http://127.0.0.1:8000/ticket' target="_blank" className="bg-amber-400 hover:bg-amber-500 text-white p-3 font-bold rounded-md">Ver Detalles</Link> 
 
         <div className="mt-5">
             {data.data.data.map(boleta=>(
@@ -88,6 +88,9 @@ export default function VerBoletas() {
                     <p className="text-xl font-bold text-slate-600">
                         Detalle de la Nota de Venta:
                     </p>
+
+                    <p className="font-bold">Boleta ID: {boleta.id}</p> 
+
                     {boleta.pedidos.map(pedido=>(
                         <div key={pedido.id} className="border-b border-b-slate-200 last-of-type:border-none py-2">
                             <p className="">Id del Pedido: {pedido.id}</p>

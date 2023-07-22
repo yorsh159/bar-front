@@ -29,10 +29,10 @@ export default function Comision() {
     const clickBuscar = async e=>{
         e.preventDefault()
 
-        const codigo = codigoRef.current.value
+        const id = codigoRef.current.value
 
         try {
-            const respuesta = await clienteAxios.get(`api/pagoComision/buscar/${codigo}`)
+            const respuesta = await clienteAxios.get(`api/pagoComision/buscar/${id}`)
             setColaborador(respuesta.data.data)
             console.log(respuesta.data.data)
         } catch (error) {
@@ -43,10 +43,10 @@ export default function Comision() {
     const clickPagar = async e=>{
         //e.preventDefault()
         
-        const codigo= codigoRef.current.value
+        const id= codigoRef.current.value
 
         try {
-            const upd = await clienteAxios.post(`api/pagoComision/${codigo}`)
+            const upd = await clienteAxios.post(`api/pagoComision/${id}`)
             //console.log(datos)
             console.log(upd)
         } catch (error) {
@@ -111,7 +111,7 @@ export default function Comision() {
                             return(
                                 <div key={colaborador.id}>
                                     <label htmlFor="">Monto a Pagar</label>
-                                    <input type="text" id="monto" className="mt-2 w-full p-3 bg-gray-50" name="monto" value={colaborador.comision} />
+                                    <input type="text" id="monto" className="mt-2 w-full p-3 bg-gray-50" name="monto" value={colaborador.comision_unitaria} />
                                 </div>
                             )}))}
                       
