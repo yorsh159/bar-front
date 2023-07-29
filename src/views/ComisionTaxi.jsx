@@ -40,7 +40,7 @@ export default function ComisionTaxi() {
             
         }
 
-       //console.log(datos);
+       console.log(datos);
 
        await clienteAxios.post('api/comisionesTaxi',datos,
        {
@@ -48,7 +48,7 @@ export default function ComisionTaxi() {
                Authorization: `Bearer ${token}`
            }
        })
-       window.location.reload();
+       //window.location.reload();
         
     } catch (error) {
         console.log(error)

@@ -38,6 +38,8 @@ export default function PedidosCaja() {
               <p className="text-xl font-bold text-slate-600">
                 Detalle de Pedido:
               </p>
+
+              <p className="font-bold">ID: {pedido.id}</p> 
   
                <p>
                  Mesero:

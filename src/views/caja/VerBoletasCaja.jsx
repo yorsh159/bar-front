@@ -88,6 +88,9 @@ export default function VerBoletasCaja() {
                       <p className="text-xl font-bold text-slate-600">
                           Detalle de la Nota de Venta:
                       </p>
+
+                      <p className="font-bold">Boleta ID: {boleta.id}</p> 
+
                       {boleta.pedidos.map(pedido=>(
                           <div key={pedido.id} className="border-b border-b-slate-200 last-of-type:border-none py-2">
                               <p className="">Id del Pedido: {pedido.id}</p>

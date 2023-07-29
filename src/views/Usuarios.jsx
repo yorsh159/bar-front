@@ -36,6 +36,9 @@ export default function Usuarios() {
     const passwordEditRef = createRef();
 
     const [errores, setErrores,] = useState([]);
+    const [errorPassword, setErrorPassword] = useState([]);
+
+
     
     const handleSubmit = async e =>{
         e.preventDefault()
@@ -67,16 +70,36 @@ export default function Usuarios() {
         name:nameEditRef.current.value,
         email:emailEditRef.current.value,
         role:roleEditRef.current.value,
-        password:passwordEditRef.current.value,
       }
 
       try {
-          await clienteAxios.put(`api/usuarios/${id}`,datos)
-          console.log(id)
+          const respuesta = await clienteAxios.put(`api/usuarios/${id}`,datos)
+          //console.log(datos)
+          //console.log(respuesta)
+          //console.log(id)
           window.location.reload()
       } catch (error) {
           console.log(error)
       }
+    }
+
+    const handleClickEditarPassword = async id =>{
+      //console.log(id)
+
+       const datos={
+         password: passwordEditRef.current.value,
+       }
+
+       try {
+        const respuesta = await clienteAxios.put(`api/usuario/${id}`,datos)
+         //console.log(datos)
+         console.log(respuesta.data)
+         toast.success('Contraseña Actualizada')
+       } catch (error) {
+         console.log(error)
+         setErrorPassword(error.response.data.message)
+         toast.error('Contraseña Invalida')
+       }
     }
 
     const handleClickEliminarUsuario = async id=>{
@@ -98,7 +121,7 @@ export default function Usuarios() {
 
     
 
-  const {handleClickModal,usuarios,usuario,modal,handleSetUsuario,modalEdit,handleClickEditModal} = useBar()
+  const {handleClickModal,usuarios,usuario,modal,handleSetUsuario,modalEdit,handleClickEditModal,handleClickEditModalPassword,modalEditPassword} = useBar()
   //console.log(modal);
   //console.log(errores.length);
   
@@ -192,32 +215,60 @@ export default function Usuarios() {
               </div> 
             </form>
 
-            <div className="mb-4">
-                <label
-                  className="text-slate-800"
-                  htmlFor="password"
-                >
-                  Contraseña:
-                </label>
-
-                <input
-                  type="password"
-                  id="password"
-                  className="mt-2 w-full p-3 bg-gray-50"
-                  name="password"
-                  placeholder="Contraseña"
-                  defaultValue={usuario.password}
-                  ref={passwordEditRef}
-
-                />
-              </div>
-
             <button onClick={()=>{handleClickEditarUsuario(usuario.id)
                                   handleClickEditModal()}}
                       className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-md font-semibold">
                 Guardar
               </button>
              
+          </div>
+
+      </Modal>
+
+      <Modal isOpen={modalEditPassword} style={customStyles}>
+          <div>
+            <div className="flex justify-between">
+              <h1 className="text-2xl font-black">Cambiar Contraseña</h1>
+
+
+              <button onClick={handleClickEditModalPassword}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              </div>
+
+              <div className="bg-white shadow-md rounded-md px-2 py-2">
+
+              {errorPassword ? <p>{errorPassword}</p> : null }
+
+                <div className="mb-4">
+                  <label
+                    className="text-slate-800"
+                    htmlFor="password"
+                  >
+                    Contraseña:
+                  </label>
+
+                  <input
+                    type="password"
+                    id="password"
+                    className="mt-2 w-full p-3 bg-gray-50"
+                    name="password"
+                    placeholder="Contraseña"
+                    ref={passwordEditRef}
+
+                  />
+                </div>
+
+                <button onClick={()=>{handleClickEditarPassword(usuario.id)
+                                      handleClickEditModalPassword()}}
+                        className="bg-slate-900 hover:bg-slate-700 text-white p-3 rounded-md font-semibold">
+                  Guardar
+                </button>  
+
+              </div>
+            
           </div>
 
       </Modal>
@@ -373,6 +424,7 @@ export default function Usuarios() {
               <th scope="col" className=" px-6 py-4">Email</th>
               <th scope="col" className=" px-6 py-4">Perfil</th>
               <th scope="col" className=" px-6 py-4">Editar</th>
+              <th scope="col" className=" px-4 py-4 w-40">Cambiar Contraseña</th>
               <th scope="col" className=" px-6 py-4">Eliminar</th>
             </tr>
           </thead>
@@ -391,6 +443,14 @@ export default function Usuarios() {
                           }}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                      </svg>
+                    </button>
+                  </td>
+                  <td className="object-center">
+                    <button onClick={()=>{handleClickEditModalPassword()
+                                          handleSetUsuario(usuario)}}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                       </svg>
                     </button>
                   </td>

@@ -12,6 +12,7 @@ const BarProvider = ({children}) =>{
     const[modal, setModal] = useState(false);
     const[modalBoleta, setModalBoleta] = useState(false);
     const[modalEdit,setModalEdit] = useState(false);
+    const[modalEditPassword,setModalEditPassword]=useState(false);
     const[modalEntrada,setModalEntrada] = useState(false);
     const[modalSalida,setModalSalida] = useState(false);
     const[modalPedido,setModalPedido] = useState(false);
@@ -449,6 +450,10 @@ const BarProvider = ({children}) =>{
         setModalEdit(!modalEdit);
     }
 
+    const handleClickEditModalPassword = ()=>{
+        setModalEditPassword(!modalEditPassword)
+    }
+
     const handleClickModalEntrada = ()=>{
         setModalEntrada(!modalEntrada);
     }
@@ -638,7 +643,9 @@ const BarProvider = ({children}) =>{
                 handleClickModalBoleta,
                 handleSetBoleta,
                 boleta,
-                comisionPagada
+                comisionPagada,
+                modalEditPassword,
+                handleClickEditModalPassword
             }}
 
         >{children}</BarContext.Provider>
